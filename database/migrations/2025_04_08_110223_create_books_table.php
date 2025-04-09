@@ -21,6 +21,8 @@ return new class extends Migration
             $table->string('isbn');
             $table->string('image');
             $table->string('location');
+            $table->integer('quantity');
+            $table->integer('pages');
             $table->enum('status', ['available', 'reserved', 'lost']);
 
 

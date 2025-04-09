@@ -40,11 +40,14 @@ class RegisteredUserController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
+        $user->sendEmailVerificationNotification();
 
         event(new Registered($user));
 
-        Auth::login($user);
 
-        return redirect(route('dashboard', absolute: false));
+
+//        Auth::login($user);
+
+        return redirect(route('welcome', absolute: false));
     }
 }

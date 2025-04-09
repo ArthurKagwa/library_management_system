@@ -12,7 +12,7 @@ class LibrarianController extends Controller
      */
     public function index()
     {
-        //
+        return view('librarian.dashboard');
     }
 
     /**
