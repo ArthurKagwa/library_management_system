@@ -27,7 +27,7 @@
                 </header>
             @endisset
             @if(auth()->user()->hasRole('manager'))
-                <x-nav-link :href="route('manager.dashboard')">Manager Panel</x-nav-link>
+                <x-nav-link :href="route('dashboard')">Manager Panel</x-nav-link>
             @endif
             @if(!auth()->check())
                 <x-nav-link :href="route('dashboard')">Dashboard</x-nav-link>

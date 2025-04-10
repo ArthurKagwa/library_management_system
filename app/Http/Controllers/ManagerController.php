@@ -23,6 +23,12 @@ class ManagerController extends Controller
         //
     }
 
+    public function staff()
+    {
+        return view('manager.staff');
+    }
+
+
     /**
      * Store a newly created resource in storage.
      */

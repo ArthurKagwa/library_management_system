@@ -1,48 +1,49 @@
 <?php
 
-use App\Http\Controllers\LibrarianController;
-use App\Http\Controllers\ManagerController;
-use App\Http\Controllers\MemberController;
-use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\{LibrarianController, ManagerController, MemberController, ProfileController};
 use Illuminate\Support\Facades\Route;
 
+// Public routes
 Route::get('/', function () {
     return view('welcome');
 })->name('welcome');
 
-
-// Redirect based on role
-Route::get('/dashboard', function () {
-    return auth()->user()->hasRole('manager')
-        ? redirect('/manager/dashboard')
-        : (auth()->user()->hasRole('librarian')
-            ? redirect('/librarian/dashboard')
-            : (auth()->user()->hasRole('member')
-                ? redirect('/member/dashboard')
-                : redirect('/')));
-})->middleware(['auth', 'verified'])->name('dashboard');
-
-Route::middleware(['auth','verified'])->group(function () {
+// Authentication-protected routes
+Route::middleware(['auth', 'verified'])->group(function () {
+    // Profile routes (accessible to all authenticated users)
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    // Role-specific dashboards
-    Route::prefix('member')->group(fn () =>
-    Route::get('dashboard', [MemberController::class, 'index']));
+    // Role-based dashboard redirection
+    Route::get('/dashboard', function () {
+        $user = auth()->user();
 
-    Route::prefix('librarian')->group(fn () =>
-    Route::get('dashboard', [LibrarianController::class, 'index']));
+        return match(true) {
+            $user->hasRole('manager') => redirect()->route('manager.dashboard'),
+            $user->hasRole('librarian') => redirect()->route('librarian.dashboard'),
+            $user->hasRole('member') => redirect()->route('member.dashboard'),
+            default => redirect('/')
+        };
+    })->name('dashboard');
 
-    Route::prefix('manager')->group(fn () =>
-    Route::get('dashboard', [ManagerController::class, 'index']));
+    // Member routes
+    Route::prefix('member')->middleware('role:member')->group(function () {
+        Route::get('dashboard', [MemberController::class, 'index'])->name('member.dashboard');
+    });
+
+    // Librarian routes
+    Route::prefix('librarian')->middleware('role:librarian')->group(function () {
+        Route::get('dashboard', [LibrarianController::class, 'index'])->name('librarian.dashboard');
+        // Add other librarian-specific routes here
+    });
+
+    // Manager routes
+    Route::prefix('manager')->middleware('role:manager')->group(function () {
+        Route::get('dashboard', [ManagerController::class, 'index'])->name('manager.dashboard');
+        Route::get('staff', [ManagerController::class, 'staff'])->name('manager.staff');
+        // Add other manager-specific routes here
+    });
 });
-
-// routes/web.php
-Route::middleware(['auth', 'role:librarian'])->group(function () {
-    Route::get('/librarian/dashboard', [LibrarianController::class, 'index']);
-});
-
-
 
 require __DIR__.'/auth.php';
