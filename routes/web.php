@@ -43,6 +43,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('dashboard', [ManagerController::class, 'index'])->name('manager.dashboard');
         Route::get('staff', [ManagerController::class, 'staff'])->name('manager.staff');
         // Add other manager-specific routes here
+        Route::post('/manager/users/{user}/upgrade', [ManagerController::class, 'upgradeToLibrarian'])->name('manager.users.upgrade');
     });
 });
 
