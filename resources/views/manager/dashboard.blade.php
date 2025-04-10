@@ -7,7 +7,7 @@
 
     <aside>
         <x-primary-button>
-            <a href="manageStaff">
+            <a href="staff">
                 Staff
             </a>
         </x-primary-button>
