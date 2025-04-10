@@ -60,6 +60,10 @@ class Book extends Model
         ];
     }
 
+    public static function count()
+    {
+        return Book::all()->count();
+    }
 
 
     /**

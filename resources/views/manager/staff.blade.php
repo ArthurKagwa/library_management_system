@@ -42,6 +42,15 @@
                                                     Upgrade to Librarian
                                                 </x-primary-button>
                                             </form>
+
+                                        @else
+                                            <form method="POST" action="{{ route('manager.users.demote', $user) }}">
+                                                @csrf
+                                                <x-primary-button type="submit"
+                                                                  onclick="return confirm('Are you sure you want to demote this librarian?')">
+                                                    Demote librarian
+                                                </x-primary-button>
+                                            </form>
                                         @endif
                                     </td>
                                 </tr>

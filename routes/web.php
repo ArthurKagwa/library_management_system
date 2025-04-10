@@ -44,6 +44,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('staff', [ManagerController::class, 'staff'])->name('manager.staff');
         // Add other manager-specific routes here
         Route::post('/manager/users/{user}/upgrade', [ManagerController::class, 'upgradeToLibrarian'])->name('manager.users.upgrade');
+        Route::get('staff', [ManagerController::class, 'staff'])->name('manager.staff');
+        // Add other manager-specific routes here
+        Route::post('/manager/users/{user}/demote', [ManagerController::class, 'demote'])->name('manager.users.demote');
     });
 });
 

@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Book;
 use App\Models\Librarian;
+use App\Models\Transaction;
 use Illuminate\Http\Request;
 
 class LibrarianController extends Controller
@@ -12,8 +14,28 @@ class LibrarianController extends Controller
      */
     public function index()
     {
-        return view('librarian.dashboard');
-    }
+        $stats = [
+            'total_books' => Book::count(),
+            'available_books' => Book::where('status', 'available')->count(),
+            'checked_out' => Transaction::whereNull('returned_at')
+                ->where('due_date', '>=', now()) // Only currently active checkouts
+                ->whereHas('book', function($query) {
+                    $query->where('status', 'checked_out'); // Verify book status matches
+                })->count(),
+                'overdue' => Transaction::whereNull('returned_at')
+                ->where('due_date', '<', now())
+                ->count()
+        ];
+
+        $recentTransactions = Transaction::with(['user', 'book'])
+            ->latest()
+            ->take(5)
+            ->get();
+
+        return view('librarian.dashboard', [
+            'stats' => $stats,
+            'recentTransactions' => $recentTransactions
+        ]);    }
 
     /**
      * Show the form for creating a new resource.
