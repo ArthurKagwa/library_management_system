@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Book;
+use App\Models\Transaction;
 use Illuminate\Http\Request;
 
 class BookController extends Controller
@@ -22,6 +23,7 @@ class BookController extends Controller
     {
         //
     }
+
 
     /**
      * Store a newly created resource in storage.
@@ -62,4 +64,6 @@ class BookController extends Controller
     {
         //
     }
+
+
 }

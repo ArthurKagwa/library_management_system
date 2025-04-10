@@ -16,13 +16,15 @@ class LibrarianController extends Controller
     {
         $stats = [
             'total_books' => Book::count(),
-            'available_books' => Book::where('status', 'available')->count(),
-            'checked_out' => Transaction::whereNull('returned_at')
-                ->where('due_date', '>=', now()) // Only currently active checkouts
-                ->whereHas('book', function($query) {
-                    $query->where('status', 'checked_out'); // Verify book status matches
-                })->count(),
-                'overdue' => Transaction::whereNull('returned_at')
+            'available_books' => Book::where('status', Book::STATUS_AVAILABLE)
+                ->where('quantity', '>', 0)
+                ->count(),
+
+            // Count books that are currently checked out (regardless of transaction status)
+            'checked_out' => Book::where('status', Book::STATUS_CHECKED_OUT)->count(),
+
+            // Count overdue transactions (where due_date passed and not returned)
+            'overdue' => Transaction::whereNull('returned_at')
                 ->where('due_date', '<', now())
                 ->count()
         ];
@@ -35,7 +37,8 @@ class LibrarianController extends Controller
         return view('librarian.dashboard', [
             'stats' => $stats,
             'recentTransactions' => $recentTransactions
-        ]);    }
+        ]);
+    }
 
     /**
      * Show the form for creating a new resource.
