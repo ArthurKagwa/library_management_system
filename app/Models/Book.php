@@ -10,7 +10,6 @@ class Book extends Model
 {
     use HasFactory;
 
-    const STATUS_CHECKED_OUT = 'checked_out';
 
     /**
      * The attributes that are mass assignable.
@@ -47,6 +46,8 @@ class Book extends Model
     public const STATUS_AVAILABLE = 'available';
     public const STATUS_RESERVED = 'reserved';
     public const STATUS_LOST = 'lost';
+    const STATUS_CHECKED_OUT = 'checked out';
+
 
     /**
      * Get the status options for the book
@@ -58,7 +59,8 @@ class Book extends Model
         return [
             self::STATUS_AVAILABLE => 'Available',
             self::STATUS_RESERVED => 'Reserved',
-            self::STATUS_LOST => 'Lost'
+            self::STATUS_LOST => 'Lost',
+            self::STATUS_CHECKED_OUT => 'Checked out'
         ];
     }
 

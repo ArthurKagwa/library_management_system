@@ -35,7 +35,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // Librarian routes
     Route::prefix('librarian')->middleware('role:librarian')->group(function () {
         Route::get('dashboard', [LibrarianController::class, 'index'])->name('librarian.dashboard');
-        // Add other librarian-specific routes here
+        Route::get('books', [LibrarianController::class, 'books'])->name('librarian.books');
+        Route::post('delete-book', [LibrarianController::class, 'deleteBook'])->name('librarian.books.delete');
+//        reserve book
+        Route::post('reserve-book', [LibrarianController::class, 'reserveBookPage'])->name('librarian.books.reserve');
+
+
     });
 
     // Manager routes
