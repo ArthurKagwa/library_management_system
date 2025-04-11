@@ -10,6 +10,8 @@ class Book extends Model
 {
     use HasFactory;
 
+    const STATUS_CHECKED_OUT = 'checked_out';
+
     /**
      * The attributes that are mass assignable.
      *
@@ -60,6 +62,10 @@ class Book extends Model
         ];
     }
 
+    public static function count(): int
+    {
+        return Book::all()->count();
+    }
 
 
     /**

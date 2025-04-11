@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Book;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
 
-class BookController extends Controller
+class TransactionController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -24,7 +23,6 @@ class BookController extends Controller
         //
     }
 
-
     /**
      * Store a newly created resource in storage.
      */
@@ -36,7 +34,7 @@ class BookController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Book $book)
+    public function show(Transactions $transactions)
     {
         //
     }
@@ -44,7 +42,7 @@ class BookController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Book $book)
+    public function edit(Transactions $transactions)
     {
         //
     }
@@ -52,7 +50,7 @@ class BookController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Book $book)
+    public function update(Request $request, Transactions $transactions)
     {
         //
     }
@@ -60,10 +58,8 @@ class BookController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Book $book)
+    public function destroy(Transactions $transactions)
     {
         //
     }
-
-
 }

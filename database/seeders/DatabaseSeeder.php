@@ -17,14 +17,16 @@ class DatabaseSeeder extends Seeder
     {
         // User::factory(10)->create();
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-        ]);
-        // in DatabaseSeeder.php
         Role::create(['name' => 'member']);
         Role::create(['name' => 'librarian']);
         Role::create(['name' => 'manager']);
+        User::factory()->create([
+            'name' => 'Library Manager',
+            'email' => 'asasiraarthur@gmail.com',
+            'password' => bcrypt('securepassword'), // Always hash passwords!
+        ])->assignRole('manager');
+        // in DatabaseSeeder.php
+
 
         $books = [
             [
