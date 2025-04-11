@@ -6,7 +6,12 @@
     <title>Library App</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body class="text-primary dark:text-primary-dark bg-secondary dark:bg-secondary-dark">
+<body class="text-primary dark:text-primary-dark bg-secondary dark:bg-secondary-dark" 
+      style="background-image: url('public\images\4907559.jpg'); 
+             background-size: cover;
+             background-position: center;
+             background-repeat: no-repeat;
+             background-attachment: fixed;">
 <nav>
     <div class="flex justify-between items-center p-4 bg-secondary dark:bg-secondary-dark">
         <div class="text-xl font-bold text-primary dark:text-primary-dark">Library App</div>
