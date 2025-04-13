@@ -16,7 +16,9 @@ class Transaction extends Model
         'checked_out_at',
         'due_date',
         'returned_at',
-        'status'
+        'status',
+        'pick_up_date',
+
     ];
 
     protected $dates = [
@@ -36,4 +38,7 @@ class Transaction extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    //reserve book
+
 }

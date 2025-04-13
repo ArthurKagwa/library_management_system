@@ -1,6 +1,11 @@
 <?php
 
-use App\Http\Controllers\{LibrarianController, ManagerController, MemberController, ProfileController};
+use App\Models\Transaction;
+use App\Http\Controllers\{LibrarianController,
+    ManagerController,
+    MemberController,
+    ProfileController,
+    TransactionController};
 use Illuminate\Support\Facades\Route;
 
 // Public routes
@@ -37,11 +42,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('dashboard', [LibrarianController::class, 'index'])->name('librarian.dashboard');
         Route::get('books', [LibrarianController::class, 'books'])->name('librarian.books');
         Route::post('delete-book', [LibrarianController::class, 'deleteBook'])->name('librarian.books.delete');
-//        reserve book
-        Route::post('reserve-book', [LibrarianController::class, 'reserveBookPage'])->name('librarian.books.reserve');
 
-
+        // Reserve book routes
+        Route::get('reserve-book', [LibrarianController::class, 'reserveBookPage'])->name('librarian.books.reserve');
     });
+
 
     // Manager routes
     Route::prefix('manager')->middleware('role:manager')->group(function () {

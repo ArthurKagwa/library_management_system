@@ -24,7 +24,7 @@ class DatabaseSeeder extends Seeder
             'name' => 'Library Manager',
             'email' => 'asasiraarthur@gmail.com',
             'password' => bcrypt('securepassword'), // Always hash passwords!
-        ])->assignRole('manager');
+        ])->assignRole('manager','librarian','member');
         // in DatabaseSeeder.php
 
 
@@ -64,6 +64,7 @@ class DatabaseSeeder extends Seeder
                 'quantity' => 4,
                 'pages' => 180,
                 'status' => 'available',
+                'category' => 'fiction',
             ],
             [
                 'title' => 'Pride and Prejudice',

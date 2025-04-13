@@ -5,10 +5,16 @@
         </h2>
     </x-slot>
 
+
     <aside>
         <x-primary-button>
             <a href="staff">
                 Staff
+            </a>
+        </x-primary-button>
+        <x-primary-button>
+            <a href="{{route('librarian.dashboard')}}">
+                Librarian
             </a>
         </x-primary-button>
 

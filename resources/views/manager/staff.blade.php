@@ -34,7 +34,7 @@
                                         @endforeach
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
-                                        @if($user->hasRole('member'))
+                                        @if($user->hasRole('member') && !$user->hasRole('librarian'))
                                             <form method="POST" action="{{ route('manager.users.upgrade', $user) }}">
                                                 @csrf
                                                 <x-primary-button type="submit"

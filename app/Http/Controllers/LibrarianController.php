@@ -34,7 +34,7 @@ class LibrarianController extends Controller
             ->take(5)
             ->get();
 
-        $books = Book::all();
+        $books = Book::paginate(20);
 
         return view('librarian.dashboard', [
             'stats' => $stats,
@@ -112,23 +112,15 @@ class LibrarianController extends Controller
     /**
      * Route to reserve a book
      */
-    public function reserveBook(Request $request)
-    {
-        $bookId = $request->input('book_id');
-
-        Transaction::reserveBook($bookId, auth()->user()->id);
-        return redirect()->route('librarian.books')->with('success', 'Book reserved successfully.');
-    }
 
     public function reserveBookPage(Request $request)
     {
-        $bookId = $request->input('book_id');
-        $book = Book::find($bookId);
+        $bookId = $request->query('book_id'); // Get book_id from query string if present
 
         return view('librarian.reserve', [
-            'book' => $book,
+            'bookId' => $bookId,
+            // Add any other data needed for your form
         ]);
     }
-
 
 }

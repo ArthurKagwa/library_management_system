@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('image');
             $table->string('location');
             $table->integer('quantity');
+            $table->string('category')->default('not specified');
             $table->integer('pages');
             $table->enum('status', ['available', 'reserved', 'lost']);
 
