@@ -61,7 +61,7 @@ class BookReservationForm extends Component
             ->exists();
 
         if ($existingReservation) {
-            return back()->with('error', 'You already have this book reserved or checked out.');
+            return redirect()->route('member.books.reserve', $this->bookId);
         }
 
         // Check if the book is available for reservation
@@ -75,12 +75,21 @@ class BookReservationForm extends Component
                 'reservation_date' => $this->reservationDate,
             ]);
 
-            return redirect()->route('librarian.reservations.index')
-                ->with('success', 'Book has been reserved and will be available when returned.');
+            if(Auth::user()->role == 'librarian'){
+                return redirect()->route('librarian.reservations.index')
+                    ->with('success', 'Book has been reserved and will be available when returned.');
+            }
+
+            return redirect()->route('member.reservations.index')->with('success', 'Book has been reserved and will be available when returned.');
+
         } else {
+
             // Book is available, allow immediate checkout
-            return redirect()->route('librarian.dashboard', ['book_id' => $this->reservationDate, 'user_id' => $this->userId])
-                ->with('info', 'This book is currently available. You can check it out now.');
+            if(Auth::user()->role == 'librarian'){
+                return redirect()->route('librarian.dashboard', ['book_id' => $this->reservationDate, 'user_id' => $this->userId])
+                    ->with('info', 'This book is currently available. You can check it out now.');
+            }
+            return redirect()->route('member.books.reserve')->with('error', 'This book is already reserved.');
         }
 
     }

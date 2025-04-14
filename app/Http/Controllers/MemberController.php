@@ -69,7 +69,7 @@ class MemberController extends Controller
     public function reserveBookPage()
     {
 
-        return view('member.books.reserve');
+        return view('reservations.reserve');
     }
 
     public function reserveBook(Request $request)

@@ -29,7 +29,7 @@
                 @error('userId') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
             </div>
         @else
-            <input type="hidden" wire:model="userId" value="{{ Auth::user->id }}">
+            <input type="hidden" wire:model="userId" value="{{ Auth::user()->id }}">
 
         @endif
             <!-- Date Selection -->
