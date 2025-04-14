@@ -11,15 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('books', function (Blueprint $table) {
+        Schema::create('lending_fees', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
-            $table->string('author');
-            $table->string('isbn')->unique();
-            $table->string('edition')->nullable();
-            $table->integer('pages')->nullable();
             $table->string('category');
-            $table->text('description')->nullable();
+            $table->integer('duration_days');
+            $table->decimal('fee_amount', 8, 2);
+            $table->date('effective_from')->default(now());
+            $table->date('effective_to')->nullable();
             $table->timestamps();
         });
     }
@@ -29,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('books');
+        Schema::dropIfExists('lending_fees');
     }
 };

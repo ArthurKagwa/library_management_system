@@ -58,11 +58,8 @@ class ManagerController extends Controller
         $librarianRole = Role::firstOrCreate(['name' => 'librarian']);
 
         // Assign the role
-        $user->assignRole($librarianRole);
-
-        // Remove member role if exists
-        if ($user->hasRole('member')) {
-            $user->removeRole('member');
+        if ($user->hasRole('member')&& !$user->hasRole('librarian')) {
+            $user->assignRole($librarianRole);
         }
 
         $user->notify(new UserPromotedNotification());

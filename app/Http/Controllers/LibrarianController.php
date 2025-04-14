@@ -34,9 +34,13 @@ class LibrarianController extends Controller
             ->take(5)
             ->get();
 
+        $books = Book::paginate(20);
+
         return view('librarian.dashboard', [
             'stats' => $stats,
-            'recentTransactions' => $recentTransactions
+            'recentTransactions' => $recentTransactions,
+            'books' => $books,
+
         ]);
     }
 
@@ -87,4 +91,36 @@ class LibrarianController extends Controller
     {
         //
     }
+
+    /**
+     * Route to books management page
+     */
+    public function books(){
+        $books = Book::all();
+        return view('librarian.books', [
+            'books' => $books,
+        ]);
+    }
+
+    /**
+     * Route to delete a book
+     */
+    public function deleteBook(Request $request){
+        $bookId = $request->input('book_id');
+        Book::destroy($bookId);
+    }
+    /**
+     * Route to reserve a book
+     */
+
+    public function reserveBookPage(Request $request)
+    {
+        $bookId = $request->query('book_id'); // Get book_id from query string if present
+
+        return view('librarian.reserve', [
+            'bookId' => $bookId,
+            // Add any other data needed for your form
+        ]);
+    }
+
 }
