@@ -113,9 +113,9 @@ class UserRoleSeeder extends Seeder
             'name' => 'Library Manager',
             'email' => 'asasiraarthur@gmail.com',
             'email_verified_at' => now(),
-            'password' => Hash::make('password'),
+            'password' => bcrypt('password'), // Always hash passwords!
         ]);
-        $manager->assignRole('manager');
+        $manager->assignRole(['manager', 'librarian', 'member']);
 
         // Create librarian users
         $librarians = [
@@ -134,7 +134,7 @@ class UserRoleSeeder extends Seeder
                 'name' => $librarian['name'],
                 'email' => $librarian['email'],
                 'email_verified_at' => now(),
-                'password' => Hash::make('password'),
+                'password' => bcrypt('password'), // Always hash passwords!
             ]);
             $user->assignRole('librarian');
         }
@@ -168,7 +168,7 @@ class UserRoleSeeder extends Seeder
                 'name' => $member['name'],
                 'email' => $member['email'],
                 'email_verified_at' => now(),
-                'password' => Hash::make('password'),
+                'password' => bcrypt('password'), // Always hash passwords!
             ]);
             $user->assignRole('member');
         }
