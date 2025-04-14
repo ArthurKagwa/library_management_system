@@ -1,8 +1,7 @@
 import './bootstrap';
 
 import Alpine from 'alpinejs';
-import { Livewire } from '../../vendor/livewire/livewire/dist/livewire.esm';
-
+import { Livewire } from '@livewire/livewire'
 window.Alpine = Alpine;
 Livewire.start();
 
