@@ -106,6 +106,8 @@ class BookSeeder extends Seeder
         ];
 
         foreach ($books as $book) {
+            // generate random quantity between 15 and 20
+            $book['quantity'] = rand(15, 20);
             Book::create($book);
         }
     }

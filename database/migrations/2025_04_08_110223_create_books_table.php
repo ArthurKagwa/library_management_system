@@ -20,6 +20,8 @@ return new class extends Migration
             $table->integer('pages')->nullable();
             $table->string('category');
             $table->text('description')->nullable();
+            //number of copies
+            $table->integer('quantity');
             $table->timestamps();
         });
     }

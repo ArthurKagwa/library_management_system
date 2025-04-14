@@ -22,7 +22,7 @@ class DatabaseSeeder extends Seeder
         $this->call(LendingFeeSeeder::class);
 
         // Seed transactions in logical order
-        $this->call(ReservationSeeder::class);
+//        $this->call(ReservationSeeder::class);
         $this->call(CheckoutSeeder::class);
         $this->call(PenaltySeeder::class);
     }

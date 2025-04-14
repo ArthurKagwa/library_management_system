@@ -62,4 +62,23 @@ class MemberController extends Controller
     {
         //
     }
+
+    /**
+     * Show the form for reserving a book.
+     */
+    public function reserveBookPage()
+    {
+
+        return view('member.books.reserve');
+    }
+
+    public function reserveBook(Request $request)
+    {
+        $bookId = $request->query('book_id'); // Get book_id from query string if present
+
+        return view('reservations.reserve', [
+            'bookId' => $bookId,
+            // Add any other data needed for your form
+        ]);
+    }
 }

@@ -23,6 +23,7 @@ class Reservation extends Model
     protected $fillable = [
         'user_id',
         'book_id',
+        'book_copy_id',
         'staff_id',
         'status',
         'reservation_date',
@@ -49,9 +50,49 @@ class Reservation extends Model
         return $this->belongsTo(Book::class);
     }
 
-//    public function staff()
-//    {
-//        return $this->belongsTo(Librarian::class, 'staff_id');
-//    }
+//get stats for reservations depending on status and also total reservations
+    public static function getStats()
+    {
+        return [
+            [
+                'title' => 'Total Reservations',
+                'value' => self::count(),
+                'icon' => 'fas fa-book',
+                'color' => 'blue',
+            ],
+            [
+                'title' => 'Pending',
+                'value' => self::where('status', 'pending')->count(),
+                'icon' => 'fas fa-clock',
+                'color' => 'yellow',
+            ],
+            [
+                'title' => 'Ready for Pickup',
+                'value' => self::where('status', 'ready_for_pickup')->count(),
+                'icon' => 'fas fa-inbox',
+                'color' => 'green',
+            ],
+            [
+                'title' => 'Picked Up',
+                'value' => self::where('status', 'picked_up')->count(),
+                'icon' => 'fas fa-check-circle',
+                'color' => 'indigo',
+            ],
+            [
+                'title' => 'Expired',
+                'value' => self::where('status', 'expired')->count(),
+                'icon' => 'fas fa-times-circle',
+                'color' => 'red',
+            ],
+            [
+                'title' => 'Cancelled',
+                'value' => self::where('status', 'cancelled')->count(),
+                'icon' => 'fas fa-ban',
+                'color' => 'gray',
+            ]
+        ];
+    }
+
+
 
 }

@@ -5,6 +5,7 @@ use App\Http\Controllers\{LibrarianController,
     ManagerController,
     MemberController,
     ProfileController,
+    ReservationController,
     TransactionController};
 use Illuminate\Support\Facades\Route;
 
@@ -35,6 +36,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // Member routes
     Route::prefix('member')->middleware('role:member')->group(function () {
         Route::get('dashboard', [MemberController::class, 'index'])->name('member.dashboard');
+        Route::get('reserve-book', [MemberController::class, 'reserveBookPage'])->name('member.books.reserve');
+
     });
 
     // Librarian routes
@@ -45,6 +48,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
         // Reserve book routes
         Route::get('reserve-book', [LibrarianController::class, 'reserveBookPage'])->name('librarian.books.reserve');
+        //view reservations
+        Route::get('view-reservations', [ReservationController::class, 'index'])->name('librarian.reservations.index');
+        //edit reservation
+        Route::get('edit-reservation/{reservation}', [ReservationController::class, 'edit'])->name('reservations.edit');
+        //update reservation
+        Route::patch('update-reservation/{reservation}', [ReservationController::class, 'update'])->name('reservations.update');
     });
 
 
