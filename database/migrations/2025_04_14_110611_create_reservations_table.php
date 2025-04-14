@@ -15,8 +15,9 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained();
             $table->foreignId('book_id')->constrained();
+            $table->foreignId('book_copy_id')->nullable();
             $table->foreignId('staff_id')->nullable()->constrained('users');
-            $table->enum('status', ['pending', 'ready_for_pickup', 'picked_up', 'expired', 'cancelled']);
+            $table->enum('status', ['pending', 'ready_for_pickup', 'picked_up', 'expired', 'cancelled'])->default('pending');
             $table->dateTime('reservation_date');
             $table->dateTime('ready_for_pickup_date')->nullable();
             $table->dateTime('pickup_deadline')->nullable();

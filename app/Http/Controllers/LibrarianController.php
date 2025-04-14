@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Book;
+use App\Models\BookCopy;
+use App\Models\Checkout;
 use App\Models\Librarian;
+use App\Models\Reservation;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
 
@@ -16,20 +19,19 @@ class LibrarianController extends Controller
     {
         $stats = [
             'total_books' => Book::count(),
-            'available_books' => Book::where('status', Book::STATUS_AVAILABLE)
-                ->where('quantity', '>', 0)
+            'available_books' => BookCopy::where('status', BookCopy::STATUS_AVAILABLE)
                 ->count(),
 
             // Count books that are currently checked out (regardless of transaction status)
-            'checked_out' => Book::where('status', Book::STATUS_CHECKED_OUT)->count(),
+            'checked_out' => BookCopy::where('status', BookCopy::STATUS_CHECKED_OUT)->count(),
 
             // Count overdue transactions (where due_date passed and not returned)
-            'overdue' => Transaction::whereNull('returned_at')
+            'overdue' => Checkout::whereNull('return_date')
                 ->where('due_date', '<', now())
                 ->count()
         ];
 
-        $recentTransactions = Transaction::with(['user', 'book'])
+        $recentTransactions = Reservation::with(['user', 'book'])
             ->latest()
             ->take(5)
             ->get();
@@ -117,7 +119,7 @@ class LibrarianController extends Controller
     {
         $bookId = $request->query('book_id'); // Get book_id from query string if present
 
-        return view('librarian.reserve', [
+        return view('reservations.reserve', [
             'bookId' => $bookId,
             // Add any other data needed for your form
         ]);

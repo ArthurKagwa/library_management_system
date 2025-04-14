@@ -4,6 +4,7 @@
 namespace App\Livewire;
 
 
+use App\Models\Reservation;
 use Livewire\Component;
 use App\Models\Book;
 use App\Models\User;
@@ -13,9 +14,7 @@ class BookReservationForm extends Component
 {
     public $bookId;
     public $userId;
-    public $pickupDate;
-    public $returnDate;
-
+    public $reservationDate;
     public $selectedBook = null;
     public $selectedUser = null;
 
@@ -38,15 +37,13 @@ class BookReservationForm extends Component
     protected $rules = [
         'bookId' => 'required|exists:books,id',
         'userId' => 'required|exists:users,id',
-        'pickupDate' => 'required|date|after_or_equal:today',
-        'returnDate' => 'required|date|after:pickupDate',
+        'reservationDate' => 'required|date|after_or_equal:today',
     ];
 
     public function mount($bookId = null)
     {
         $this->bookId = $bookId ;
-        $this->pickupDate = now()->format('Y-m-d');
-        $this->returnDate = now()->addWeek()->format('Y-m-d');
+        $this->reservationDate = now()->format('Y-m-d');
 
         if ($bookId) {
             $this->selectedBook = Book::find($bookId);
@@ -58,7 +55,7 @@ class BookReservationForm extends Component
         $this->validate();
 
         // Check if the book is already reserved or checked out by this user
-        $existingReservation = Transaction::where('book_id', $this->bookId)
+        $existingReservation = Reservation::where('book_id', $this->bookId)
             ->where('user_id', $this->userId)
             ->whereIn('status', ['reserved', 'checked_out'])
             ->exists();
@@ -68,28 +65,21 @@ class BookReservationForm extends Component
         }
 
         // Check if the book is available for reservation
-        $book = Book::findOrFail($this->bookId);
-        $isBookAvailableForReservation = !Transaction::where('book_id', $this->bookId)
-            ->where('status', 'checked_out')
-            ->exists();
+        $isBookAvailableForReservation = Book::available('book_id');
 
         if (!$isBookAvailableForReservation) {
             // Create reservation for when book is returned
-            $reservation = Transaction::create([
+            $reservation = Reservation::create([
                 'user_id' =>$this->userId,
                 'book_id' => $this->bookId,
-                'pick_up_date' => $this->pickupDate,
-                'checked_out_at' => null,
-                'due_date' => null,
-                'returned_at' => null,
-                'status' => 'reserved',
+                'reservation_date' => $this->reservationDate,
             ]);
 
-            return redirect()->route('librarian.dashboard')
+            return redirect()->route('librarian.reservations.index')
                 ->with('success', 'Book has been reserved and will be available when returned.');
         } else {
             // Book is available, allow immediate checkout
-            return redirect()->route('librarian.dashboard', ['book_id' => $this->pickupDate, 'user_id' => $this->userId])
+            return redirect()->route('librarian.dashboard', ['book_id' => $this->reservationDate, 'user_id' => $this->userId])
                 ->with('info', 'This book is currently available. You can check it out now.');
         }
 
