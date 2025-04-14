@@ -111,7 +111,7 @@ class UserRoleSeeder extends Seeder
         // Create manager user (replaces the previous admin)
         $manager = User::create([
             'name' => 'Library Manager',
-            'email' => 'manager@library.com',
+            'email' => 'asasiraarthur@gmail.com',
             'email_verified_at' => now(),
             'password' => Hash::make('password'),
         ]);
