@@ -90,7 +90,7 @@ public function update(Request $request, Reservation $reservation){
             }
 
             if($reservation->update($validated)) {
-                if(Auth::user()->role == 'librarian'){
+                if(Auth::user()->hasRole('librarian')){
                     return redirect()->route('librarian.reservations.index')->with('success', 'Reservation updated successfully.');
                 }
 
