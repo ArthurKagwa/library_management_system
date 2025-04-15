@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Member;
 use App\Models\Reservation;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class MemberController extends Controller
 {
@@ -88,16 +89,19 @@ class MemberController extends Controller
 
          $reservation = Reservation::find($reservationId);
         if (!$reservation) {
-            return redirect()->route('member.reservations.index')->with('error', 'Reservation not found.');
+            return redirect()->route('member.my-reservations')->with('error', 'Reservation not found.');
         }
-        return view('reservations.update-reservation', ['reservation' => $reservation]);
+        return view('reservations.update-reservation', ['reservation' => $reservation])->with('success', 'Reservation updated successfully.');
 
     }
 
     public function myReservations()
     {
-        $stats = Reservation::memberReservationStats(auth()->id());
-        $reservations = Reservation::where('user_id', auth()->id())->get();
+        $stats = Reservation::memberReservationStats(Auth::user()->id);
+        $reservations = Reservation::where('user_id', Auth::user()->id)
+            ->with(['user', 'book'])
+            ->orderBy('created_at', 'desc')
+            ->get();
         return view('reservations.my-reservations', ['reservations' => $reservations, 'stats' => $stats]);
     }
 }

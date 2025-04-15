@@ -53,7 +53,7 @@
                                 {{ $reservation->user->name }}
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
-                                {{ $reservation->created_at->format('Y-m-d H:i:s') }}
+                                {{ $reservation->reservation_date->format('Y-m-d H:i:s') }}
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <span @class([
@@ -66,7 +66,7 @@
                                 </span>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                <a href="{{ route('reservations.edit', $reservation->id) }}" class="text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300">
+                                <a href="{{ route('member.reservations.edit', $reservation->id) }}" class="text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300">
                                     {{ __('Inspect') }}
                                 </a>
                             </td>

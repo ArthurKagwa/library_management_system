@@ -20,14 +20,28 @@
     <div class="p-6 grid grid-cols-1 md:grid-cols-2 gap-4 dark:text-primary-dark">
         <div class="bg-white dark:bg-gray-800 shadow-sm sm:rounded-lg p-6">
             <h3 class="text-lg font-semibold mb-4">{{ __('Update Reservation') }}</h3>
-            <form method="POST" action="{{ route('reservations.update', $reservation->id) }}">
-                @csrf
+
+            @if(Auth::check() && Auth::user()->hasRole('librarian'))
+
+                <form method="POST" action="{{ route('reservations.update', $reservation->id) }}">
+            @else
+                <form method="POST" action="{{ route('member.reservations.update', $reservation->id) }}">
+            @endif
+
+                        @csrf
                 @method('PATCH')
 
                 <!-- Hidden fields to maintain user, book, and reservation date -->
                 <input type="hidden" name="user_id" value="{{ $reservation->user_id }}">
 
                     <input type="hidden" name="book_id" value="{{ $reservation->book_id }}">
+                <div class="mb-4">
+                        <x-input-label for="reservation_date" :value="__('Reservation Date')" />
+                        <x-text-input id="reservation_date" name="reservation_date" type="datetime-local"
+                                      class="mt-1 block w-full"
+                                       required />
+                        @error('reservation_date') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+                </div>
                 @if(Auth::check() && Auth::user()->hasRole('librarian'))
 
                 <input type="hidden" name="librarian_id" value="{{ Auth::user()->id }}">
@@ -69,18 +83,30 @@
                     </div>
 
                 @else
-                    <input type="hidden" name="status" value="pending">
-                @endif
+                    <div class="mb-4">
+{{--                        change status to cancel--}}
+                        <div class="mb-4 border border-gray-300 dark:border-gray-700 p-4 rounded-md bg-gray-50 dark:bg-gray-900">
+                            Change status to "Cancel" to cancel the reservation.
+                        </div>
+                          <x-input-label for="status" class="block text-sm font-medium text-gray-700 dark:text-gray-300">{{ __('Status') }}</x-input-label>
+                          <select id="status" name="status" class="w-full border-primary-dark dark:border-primary dark:bg-secondary-dark dark:text-primary-dark focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm">
+                              <option value="pending" {{ $reservation->status === 'pending' ? 'selected' : '' }}>{{ __('Pending') }}</option>
+                              <option value="cancelled" {{ $reservation->status === 'cancelled' ? 'selected' : '' }}>{{ __('Cancel') }}</option>
+                          </select>
+                          @error('status') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+                      </div>
+                  @endif
 
-                <div class="mb-4">
-                    <x-input-label for="ready_for_pickup_date" :value="__('Ready for Pickup Date')" />
-                    <x-text-input id="ready_for_pickup_date" name="ready_for_pickup_date" type="datetime-local"
-                                  class="mt-1 block w-full"
-                                  value="{{ $reservation->ready_for_pickup_date ? date('Y-m-d\TH:i', strtotime($reservation->ready_for_pickup_date)) : old('ready_for_pickup_date') }}" required />
-                    @error('ready_for_pickup_date') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
-                </div>
+
 
                 @if(Auth::check() && Auth::user()->hasRole('librarian'))
+                        <div class="mb-4">
+                            <x-input-label for="ready_for_pickup_date" :value="__('Ready for Pickup Date')" />
+                            <x-text-input id="ready_for_pickup_date" name="ready_for_pickup_date" type="datetime-local"
+                                          class="mt-1 block w-full"
+                                          value="{{ $reservation->ready_for_pickup_date ? date('Y-m-d\TH:i', strtotime($reservation->ready_for_pickup_date)) : old('ready_for_pickup_date') }}" required />
+                            @error('ready_for_pickup_date') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+                        </div>
 
                     <div class="mb-4">
                         <x-input-label for="pickup_deadline" :value="__('Pickup Deadline')" />
@@ -112,6 +138,7 @@
                     @endif
                 </button>
             </form>
+
         </div>
         <div class="bg-white dark:bg-gray-800 shadow-sm sm:rounded-lg p-6">
            <h3 class="text-lg font-semibold mb-4">{{ __('Reservation Details') }}</h3>
@@ -132,6 +159,8 @@
                <div>
                    <h4 class="text-sm font-medium text-gray-500 dark:text-gray-400 uppercase mb-2">{{ __('Reservation Status') }}</h4>
                    <p class="mb-1"><strong class="font-medium">{{ __('Created:') }}</strong> {{ $reservation->created_at->format('Y-m-d H:i:s') }}</p>
+                   <p class="mb-1"><strong class="font-medium">{{ __('Reservation Date:') }}</strong> {{ $reservation->reservation_date->format('Y-m-d H:i:s') }}</p>
+
                    <p class="mb-1"><strong class="font-medium">{{ __('Status:') }}</strong>
                        <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full
                            {{ $reservation->status === 'pending' ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200' :

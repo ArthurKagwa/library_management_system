@@ -39,9 +39,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('reserve-book', [MemberController::class, 'reserveBookPage'])->name('member.books.reserve');
         //view reservations
         Route::get('reservations', [MemberController::class, 'myReservations'])->name('member.my-reservations');
-        //members reservatin update
-        Route::get('reservations/{reservationId}', [MemberController::class, 'updateReservationPage'])->name('member.reservations.update');
-
+        //show reservation update page
+        Route::get('reservations/{reservation}/edit', [ReservationController::class, 'edit'])->name('member.reservations.edit');
+        //members reservation update
+        Route::patch('reservations/{reservation}', [ReservationController::class, 'update'])->name('member.reservations.update');
     });
 
     // Librarian routes

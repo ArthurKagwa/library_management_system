@@ -66,9 +66,15 @@
                                 </span>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                <a href="{{ route('reservations.edit', $reservation->id) }}" class="text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300">
-                                    {{ __('Edit') }}
-                                </a>
+                                @if(Auth::user()->hasRole('librarian'))
+                                    <a href="{{ route('reservations.show', $reservation->id) }}" class="text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300">
+                                        {{ __('View') }}
+                                    </a>
+                                @else
+                                    <a href="{{ route('member.reservations.update', $reservation->id) }}" class="text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300">
+                                        {{ __('Edit') }}
+                                    </a>
+                                @endif
                             </td>
                         </tr>
                     @endforeach

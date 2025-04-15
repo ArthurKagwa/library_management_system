@@ -41,7 +41,11 @@ class BookReservationForm extends Component
     ];
 
     public function mount($bookId = null)
+
     {
+        if(Auth::check()&& !Auth::user()->hasRole(['librarian'])){
+            $this->userId = Auth::user()->id;
+        }
         $this->bookId = $bookId ;
         $this->reservationDate = now()->format('Y-m-d');
 
@@ -60,7 +64,12 @@ public function submit()
             ->whereIn('status', ['reserved', 'checked_out'])
             ->exists();
 
+
         if ($existingReservation) {
+            if(Auth::user()->hasRole('librarian')){
+                return redirect()->route('librarian.books.reserve', $this->bookId)
+                    ->with('error', 'You have already reserved or checked out this book.');
+            }
             return redirect()->route('member.books.reserve', $this->bookId)
                 ->with('error', 'You have already reserved or checked out this book.');
         }
@@ -81,7 +90,7 @@ public function submit()
                     ->with('success', 'Book has been reserved and will be available when returned.');
             }
 
-            return redirect()->route('member.reservations.index')
+            return redirect()->route('member.my-reservations')
                 ->with('success', 'Book has been reserved and will be available when returned.');
 
         } else {
@@ -90,7 +99,7 @@ public function submit()
                 return redirect()->route('librarian.dashboard', ['book_id' => $this->bookId, 'user_id' => $this->userId])
                     ->with('info', 'This book is currently available. You can check it out now.');
             }
-            return redirect()->route('member.books.reserve')
+            return redirect()->route('member.reservations.index')
                 ->with('error', 'This book is already reserved.');
         }
     }

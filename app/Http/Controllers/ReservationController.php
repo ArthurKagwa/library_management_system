@@ -6,6 +6,7 @@ use App\Models\Book;
 use App\Models\BookCopy;
 use App\Models\Reservation;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 
 class ReservationController extends Controller
@@ -69,25 +70,33 @@ class ReservationController extends Controller
 public function update(Request $request, Reservation $reservation){
         try {
             // Validate the request data
-            $validated = $request->validate([
-                'status' => 'in:pending,ready_for_pickup,picked_up,expired,cancelled',
-                'ready_for_pickup_date' => 'required|date|after:now',
-                'pickup_deadline' => 'required|date|after:ready_for_pickup_date',
-                'actual_pickup_date' => 'nullable|date|after:ready_for_pickup_date',
-                'notification_sent' => 'boolean',
-                'book_copy_id' => 'required|exists:book_copies,id',
-            ]);
 
-//            // Check if book copy is available
-//            $bookCopy = BookCopy::findOrFail($validated['book_copy_id']);
-//            if ($bookCopy->status !== 'available' && $reservation->book_copy_id !== $validated['book_copy_id']) {
-//                return redirect()->back()->withErrors(['book_copy_id' => 'Selected book copy is not available.'])->withInput();
-//            }
+            if (Auth::user()->hasRole('librarian') ){
+                $validated = $request->validate([
+                    'status' => 'in:ready_for_pickup,picked_up,expired,cancelled',
+                    'ready_for_pickup_date' => 'required|date|after:now',
+                    'pickup_deadline' => 'required|date|after:ready_for_pickup_date',
+                    'actual_pickup_date' => 'nullable|date|after:ready_for_pickup_date',
+                    'notification_sent' => 'boolean',
+                    'book_copy_id' => 'required|exists:book_copies,id',
+                ]);
+            } else {
+                $validated = $request->validate([
+                    'reservation_date' => 'required|date|after:now',
+                    'status' => 'in:pending,cancelled',
+                    'notification_sent' => 'boolean',
 
-            // Update the reservation with only validated fields
-            $reservation->update($validated);
+                ]);
+            }
 
-            return redirect()->route('librarian.reservations.index')->with('success', 'Reservation updated successfully.');
+            if($reservation->update($validated)) {
+                if(Auth::user()->role == 'librarian'){
+                    return redirect()->route('librarian.reservations.index')->with('success', 'Reservation updated successfully.');
+                }
+
+                return redirect()->route('member.my-reservations')->with('success', 'Reservation updated successfully.');
+            }
+
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'An error occurred while updating the reservation: ' . $e->getMessage())->withInput();
         }
