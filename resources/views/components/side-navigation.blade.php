@@ -13,8 +13,9 @@
 
     <!-- Side navigation -->
     <nav class="bg-white dark:bg-gray-800 border-r dark:border-secondary-dark shadow-sm
-                md:fixed md:h-full md:w-64
-                absolute w-full z-40 transition-all duration-300 ease-in-out transform"
+            md:fixed md:h-full md:w-64
+            absolute w-full z-40 transition-all duration-300 ease-in-out transform
+            overflow-y-auto"
          :class="{'translate-x-0': open, '-translate-x-full md:translate-x-0': !open}">
 
         <div class="p-5">
@@ -57,6 +58,11 @@
                         <x-icon name="book" class="w-5 h-5 mr-3" />
                         <span>Dashboard</span>
                     </a>
+                     <a href="{{ route('member.my-books') }}"
+                       class="flex items-center px-4 py-2 mb-2 rounded-md {{ request()->routeIs('member.my-books') ? 'bg-secondary-accent text-white' : 'text-primary bg-secondary dark:text-primary-dark  dark:bg-secondary-dark hover:bg-gray-100 dark:hover:bg-primary' }}">
+                        <x-icon name="inbox" class="w-5 h-5 mr-3" />
+                        <span>My Books</span>
+                    </a>
 
                     <a href="{{ route('member.books.reserve') }}"
                        class="flex items-center px-4 py-2 mb-2 rounded-md {{ request()->routeIs('member.books.reserve') ? 'bg-secondary-accent text-white' : 'text-primary bg-secondary dark:text-primary-dark  dark:bg-secondary-dark hover:bg-gray-100 dark:hover:bg-primary' }}">
@@ -81,6 +87,11 @@
                        class="flex items-center px-4 py-2 mb-2 rounded-md {{ request()->routeIs('librarian.dashboard') ? 'bg-secondary-accent text-white' : 'text-primary bg-secondary dark:text-primary-dark  dark:bg-secondary-dark hover:bg-gray-100 dark:hover:bg-secondary-dark' }}">
                         <x-icon name="book" class="w-5 h-5 mr-3" />
                         <span>Dashboard</span>
+                    </a>
+                      <a href="{{ route('librarian.books.index') }}"
+                       class="flex items-center px-4 py-2 mb-2 rounded-md {{ request()->routeIs('librarian.books.index') ? 'bg-secondary-accent text-white' : 'text-primary bg-secondary dark:text-primary-dark  dark:bg-secondary-dark hover:bg-gray-100 dark:hover:bg-secondary-dark' }}">
+                        <x-icon name="book" class="w-5 h-5 mr-3" />
+                        <span>Library Books</span>
                     </a>
 
                     <a href="{{ route('librarian.books') }}"
