@@ -5,6 +5,7 @@ namespace App\Livewire;
 
 
 use App\Models\Reservation;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use App\Models\Book;
 use App\Models\User;
@@ -28,7 +29,6 @@ class BookReservationForm extends Component
         $this->selectedUser = User::find($userId);
     }
 
-// Similarly, you need a setBookId method
     public function setBookId($bookId)
     {
         $this->bookId = $bookId;
@@ -50,7 +50,7 @@ class BookReservationForm extends Component
         }
     }
 
-    public function submit()
+public function submit()
     {
         $this->validate();
 
@@ -61,40 +61,42 @@ class BookReservationForm extends Component
             ->exists();
 
         if ($existingReservation) {
-            return redirect()->route('member.books.reserve', $this->bookId);
+            return redirect()->route('member.books.reserve', $this->bookId)
+                ->with('error', 'You have already reserved or checked out this book.');
         }
 
         // Check if the book is available for reservation
-        $isBookAvailableForReservation = Book::available('book_id');
+        $isBookAvailableForReservation = Book::available($this->bookId);
 
-        if (!$isBookAvailableForReservation) {
+        if ($isBookAvailableForReservation) {
             // Create reservation for when book is returned
             $reservation = Reservation::create([
-                'user_id' =>$this->userId,
+                'user_id' => $this->userId,
                 'book_id' => $this->bookId,
                 'reservation_date' => $this->reservationDate,
             ]);
 
-            if(Auth::user()->role == 'librarian'){
+            if(Auth::check() && Auth::user()->hasRole('librarian')) {
                 return redirect()->route('librarian.reservations.index')
                     ->with('success', 'Book has been reserved and will be available when returned.');
             }
 
-            return redirect()->route('member.reservations.index')->with('success', 'Book has been reserved and will be available when returned.');
+            return redirect()->route('member.reservations.index')
+                ->with('success', 'Book has been reserved and will be available when returned.');
 
         } else {
-
             // Book is available, allow immediate checkout
-            if(Auth::user()->role == 'librarian'){
-                return redirect()->route('librarian.dashboard', ['book_id' => $this->reservationDate, 'user_id' => $this->userId])
+            if(Auth::check() && Auth::user()->hasRole('librarian')) {
+                return redirect()->route('librarian.dashboard', ['book_id' => $this->bookId, 'user_id' => $this->userId])
                     ->with('info', 'This book is currently available. You can check it out now.');
             }
-            return redirect()->route('member.books.reserve')->with('error', 'This book is already reserved.');
+            return redirect()->route('member.books.reserve')
+                ->with('error', 'This book is already reserved.');
         }
-
     }
     public function render()
     {
         return view('livewire.book-reservation-form');
     }
 }
+

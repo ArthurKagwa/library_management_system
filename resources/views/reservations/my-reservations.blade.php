@@ -19,7 +19,7 @@
 
     </div>
     <div class="p-6">
-{{--        show reservations in table with actions--}}
+        {{--        show reservations in table with actions--}}
         <div class="bg-white dark:bg-gray-800 shadow-sm sm:rounded-lg overflow-hidden">
             <div class="overflow-x-auto">
                 <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
@@ -67,7 +67,7 @@
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                                 <a href="{{ route('reservations.edit', $reservation->id) }}" class="text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300">
-                                    {{ __('Edit') }}
+                                    {{ __('Inspect') }}
                                 </a>
                             </td>
                         </tr>

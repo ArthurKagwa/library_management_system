@@ -1,8 +1,11 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('Librarian Book Reservation') }}
-
+            @if(Auth::check() && Auth::user()->hasRole('librarian'))
+                {{ __('Librarian Book Reservations') }}
+            @else
+                {{ __('Member Book Reservations') }}
+            @endif
         </h2>
         @if (session('success'))
             <div class="mb-4 text-sm text-green-600 dark:text-green-400">

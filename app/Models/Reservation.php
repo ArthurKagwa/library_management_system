@@ -41,6 +41,49 @@ class Reservation extends Model
     ];
 
     // Define relationships
+public static function memberReservationStats(int|string|null $id)
+  {
+      return [
+          [
+              'title' => 'Total Reservations',
+              'value' => self::where('user_id', $id)->count(),
+              'icon' => 'book',  // Changed from 'fas fa-book'
+              'color' => 'blue',
+          ],
+          [
+              'title' => 'Pending',
+              'value' => self::where('user_id', $id)->where('status', 'pending')->count(),
+              'icon' => 'clock',  // You'll need to add this to your icon component
+              'color' => 'yellow',
+          ],
+          [
+              'title' => 'Ready for Pickup',
+              'value' => self::where('user_id', $id)->where('status', 'ready_for_pickup')->count(),
+              'icon' => 'inbox',  // You'll need to add this to your icon component
+              'color' => 'green',
+          ],
+          [
+              'title' => 'Picked Up',
+              'value' => self::where('user_id', $id)->where('status', 'picked_up')->count(),
+              'icon' => 'check-circle',  // Changed from 'fas fa-check-circle'
+              'color' => 'indigo',
+          ],
+          [
+              'title' => 'Expired',
+              'value' => self::where('user_id', $id)->where('status', 'expired')->count(),
+              'icon' => 'exclamation-circle',  // Changed from 'fas fa-times-circle'
+              'color' => 'red',
+          ],
+          [
+              'title' => 'Cancelled',
+              'value' => self::where('user_id', $id)->where('status', 'cancelled')->count(),
+              'icon' => 'ban',  // You'll need to add this to your icon component
+              'color' => 'gray',
+          ]
+      ];
+  }
+
+  // Also update the getStats() method similarly
     public function user()
     {
         return $this->belongsTo(User::class);
@@ -57,42 +100,41 @@ class Reservation extends Model
             [
                 'title' => 'Total Reservations',
                 'value' => self::count(),
-                'icon' => 'fas fa-book',
+                'icon' => 'book',
                 'color' => 'blue',
             ],
             [
                 'title' => 'Pending',
                 'value' => self::where('status', 'pending')->count(),
-                'icon' => 'fas fa-clock',
+                'icon' => 'clock',
                 'color' => 'yellow',
             ],
             [
                 'title' => 'Ready for Pickup',
                 'value' => self::where('status', 'ready_for_pickup')->count(),
-                'icon' => 'fas fa-inbox',
+                'icon' => 'inbox',
                 'color' => 'green',
             ],
             [
                 'title' => 'Picked Up',
                 'value' => self::where('status', 'picked_up')->count(),
-                'icon' => 'fas fa-check-circle',
+                'icon' => 'check-circle',
                 'color' => 'indigo',
             ],
             [
                 'title' => 'Expired',
                 'value' => self::where('status', 'expired')->count(),
-                'icon' => 'fas fa-times-circle',
+                'icon' => 'exclamation-circle',
                 'color' => 'red',
             ],
             [
                 'title' => 'Cancelled',
                 'value' => self::where('status', 'cancelled')->count(),
-                'icon' => 'fas fa-ban',
+                'icon' => 'ban',
                 'color' => 'gray',
             ]
         ];
     }
-
 
 
 }

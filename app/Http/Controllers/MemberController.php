@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Member;
+use App\Models\Reservation;
 use Illuminate\Http\Request;
 
 class MemberController extends Controller
@@ -80,5 +81,23 @@ class MemberController extends Controller
             'bookId' => $bookId,
             // Add any other data needed for your form
         ]);
+    }
+
+    public function updateReservationPage(Request $request, $reservationId)
+    {
+
+         $reservation = Reservation::find($reservationId);
+        if (!$reservation) {
+            return redirect()->route('member.reservations.index')->with('error', 'Reservation not found.');
+        }
+        return view('reservations.update-reservation', ['reservation' => $reservation]);
+
+    }
+
+    public function myReservations()
+    {
+        $stats = Reservation::memberReservationStats(auth()->id());
+        $reservations = Reservation::where('user_id', auth()->id())->get();
+        return view('reservations.my-reservations', ['reservations' => $reservations, 'stats' => $stats]);
     }
 }
