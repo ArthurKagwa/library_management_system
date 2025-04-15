@@ -31,17 +31,9 @@
                         @csrf
                 @method('PATCH')
 
-                <!-- Hidden fields to maintain user, book, and reservation date -->
                 <input type="hidden" name="user_id" value="{{ $reservation->user_id }}">
 
                     <input type="hidden" name="book_id" value="{{ $reservation->book_id }}">
-                <div class="mb-4">
-                        <x-input-label for="reservation_date" :value="__('Reservation Date')" />
-                        <x-text-input id="reservation_date" name="reservation_date" type="datetime-local"
-                                      class="mt-1 block w-full"
-                                       required />
-                        @error('reservation_date') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
-                </div>
                 @if(Auth::check() && Auth::user()->hasRole('librarian'))
 
                 <input type="hidden" name="librarian_id" value="{{ Auth::user()->id }}">
@@ -83,6 +75,13 @@
                     </div>
 
                 @else
+                        <div class="mb-4">
+                            <x-input-label for="reservation_date" :value="__('Reservation Date')" />
+                            <x-text-input id="reservation_date" name="reservation_date" type="datetime-local"
+                                          class="mt-1 block w-full"
+                                          required />
+                            @error('reservation_date') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+                        </div>
                     <div class="mb-4">
 {{--                        change status to cancel--}}
                         <div class="mb-4 border border-gray-300 dark:border-gray-700 p-4 rounded-md bg-gray-50 dark:bg-gray-900">
