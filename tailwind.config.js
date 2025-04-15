@@ -22,6 +22,7 @@ export default {
                 secondary: {
                     DEFAULT: '#f3f4f6', // secondary (light background)
                     dark: '#111827',    // gray-800 (dark background)
+                    accent : '#3b82f6', // blue-500 (accent color)
                 },
             }
         },
