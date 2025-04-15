@@ -61,7 +61,7 @@ public function submit()
         // Check if the book is already reserved or checked out by this user
         $existingReservation = Reservation::where('book_id', $this->bookId)
             ->where('user_id', $this->userId)
-            ->whereIn('status', ['reserved', 'checked_out'])
+            ->whereIn('status', ['reserved', 'checked_out','pending'])
             ->exists();
 
 
