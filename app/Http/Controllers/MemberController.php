@@ -19,7 +19,7 @@ class MemberController extends Controller
     public function myBooks()
     {
         // Get all books currently checked out by the member
-    $checkedOutBooks = Transaction::with(['bookCopy.book'])
+        $checkedOutBooks = Checkout::with(['bookCopy.book'])
     ->where('user_id', Auth::id())
     ->where('transaction_type', 'checkout')
     ->whereNull('return_date')

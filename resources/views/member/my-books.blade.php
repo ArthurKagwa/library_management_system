@@ -25,14 +25,15 @@
                                     </tr>
                                 </thead>
                                 <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200">
-                                    @foreach($checkedOutBooks as $transaction)
-                                        <tr>
-                                            <td class="px-6 py-4 whitespace-nowrap">{{ $transaction->bookCopy->book->title }}</td>
-                                            <td class="px-6 py-4 whitespace-nowrap">{{ $transaction->bookCopy->book->author }}</td>
-                                            <td class="px-6 py-4 whitespace-nowrap">{{ $transaction->due_date->format('Y-m-d') }}</td>
-                                            <td class="px-6 py-4 whitespace-nowrap">{{ $transaction->bookCopy->copy_number }}</td>
-                                        </tr>
-                                    @endforeach
+                                   @foreach($checkedOutBooks as $checkout)
+    <tr>
+        <td>{{ $checkout->bookCopy->book->title }}</td>
+        <td>{{ $checkout->bookCopy->book->author }}</td>
+        <td>{{ $checkout->due_date->format('Y-m-d') }}</td>
+        <td>{{ $checkout->bookCopy->copy_number }}</td>
+        <td>{{ ucfirst($checkout->checkout_condition) }}</td>
+    </tr>
+@endforeach
                                 </tbody>
                             </table>
                         </div>
