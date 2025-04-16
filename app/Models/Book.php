@@ -2,11 +2,35 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Book extends Model
 {
-    //
+    use HasFactory;
+
+    protected $fillable = [
+        'title',
+        'author',
+        'isbn',
+        'description',
+        'published_date',
+    ];
+
+    public function copies()
+    {
+        return $this->hasMany(BookCopy::class);
+    }
+
+    public function reservations()
+    {
+        return $this->hasMany(Reservation::class);
+    }
+
+    public function availableCopies()
+    {
+        return $this->copies()->where('status', 'available');
+    }
 
 
     public static function available(mixed $book_id)
