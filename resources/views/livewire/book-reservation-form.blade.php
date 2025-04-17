@@ -6,7 +6,7 @@
         <!-- Book Selection -->
         <div>
             @if($bookId)
-                <input type="hidden" wire:model="bookId">
+                <input type="hidden" wire:model="bookId" >
                 <div class="p-3 bg-green-100 rounded mb-4">
                     Selected Book: {{ $selectedBook->title }} by {{ $selectedBook->author }}
                 </div>

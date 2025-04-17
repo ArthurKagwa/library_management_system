@@ -5,4 +5,9 @@
         </h2>
     </x-slot>
 
+    <div class="p-6">
+
+        <livewire-search-reservations />
+    </div>
+
 </x-app-layout>
