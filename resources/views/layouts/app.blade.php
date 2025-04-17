@@ -31,7 +31,17 @@
                                 <header class="bg-white dark:bg-gray-800 shadow">
                                     <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
                                         {{ $header }}
+                                        @if (session('success'))
+                                            <div class="mt-4 text-sm text-green-600 dark:text-green-400">
+                                                {{ session('success') }}
+                                            </div>
+                                        @elseif(session('error'))
+                                            <div class="mt-4 text-sm text-red-600 dark:text-red-400">
+                                                {{ session('error') }}
+                                            </div>
+                                        @endif
                                     </div>
+
                                 </header>
                             @endif
 

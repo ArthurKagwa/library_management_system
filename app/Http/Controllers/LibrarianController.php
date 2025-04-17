@@ -91,7 +91,7 @@ public function destroyBook(Book $book)
 
     // Delete all copies first
     $book->copies()->delete();
-    
+
     // Then delete the book
     $book->delete();
 
@@ -122,6 +122,8 @@ public function destroyBook(Book $book)
     {
         //
     }
+
+
 
     /**
      * Show the form for editing the specified resource.
@@ -176,6 +178,15 @@ public function destroyBook(Book $book)
             'bookId' => $bookId,
             // Add any other data needed for your form
         ]);
+    }
+
+    /**
+     * Route to checkout page
+     */
+    public function checkoutPage(){
+
+        return view('librarian.checkout');
+
     }
 
 }

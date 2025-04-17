@@ -85,11 +85,18 @@ public function update(Request $request, Reservation $reservation){
                     'reservation_date' => 'required|date|after:now',
                     'status' => 'in:pending,cancelled',
                     'notification_sent' => 'boolean',
-//have a check for checking copyid copy control change status of the copy change to reserved upon reservation it changes to reserved
                 ]);
             }
 
-           
+
+            $bookCopy = BookCopy::find($request->book_copy_id);
+            if($bookCopy){
+                $bookCopy->status = 'reserved';
+                $bookCopy->save();
+            }
+
+
+
             if($reservation->update($validated)) {
                 if(Auth::user()->hasRole('librarian')){
                     return redirect()->route('librarian.reservations.index')->with('success', 'Reservation updated successfully.');
