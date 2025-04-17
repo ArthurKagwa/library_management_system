@@ -58,4 +58,16 @@ class BookCopy extends Model
                                   ->get();
         }
 
+//change status to checked_out;
+    public static function checkout($copyId)
+    {
+        $copy = self::find($copyId);
+        if ($copy) {
+            $copy->status = self::STATUS_CHECKED_OUT;
+            $copy->save();
+            return $copy;
+        }
+        return null;
+    }
+
 }

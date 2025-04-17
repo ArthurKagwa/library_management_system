@@ -42,12 +42,12 @@
                     <div class="mb-4">
                         <x-input-label for="book_copy_id" :value="__('Copy ID')" />
                         <select id="book_copy_id" name="book_copy_id" class="mt-1 block w-full" required>
-                            @if ($reservation->book_copy_id)
-                                <option value="{{ $reservation->book_copy_id }}" selected>
-                                    {{ __('Current Copy number:') }} {{ $reservation->book_copy->copy_number }} ,
-                                    {{ __('Copy ID:') }} {{ $reservation->book_copy_id }}
-                                </option>
-                            @endif
+                          @if ($reservation->book_copy_id)
+                              <option value="{{ $reservation->book_copy_id }}" selected>
+                                  {{ __('Current Copy number:') }} {{ $reservation->book_copy ? $reservation->book_copy->copy_number : 'N/A' }} ,
+                                  {{ __('Copy ID:') }} {{ $reservation->book_copy_id }}
+                              </option>
+                          @endif
 
                             @if (!empty($availableCopies))
                                 @foreach ($availableCopies as $copy)
@@ -160,8 +160,7 @@
                        </span>
                    </p>
                    @if($reservation->book_copy_id)
-                       <p class="mb-1"><strong class="font-medium">{{ __('Copy:') }}</strong> #{{ $reservation->book_copy_id }} , {{__('Copy Number')}} {{ $reservation->book_copy_id->copy_number }}</p>
-                   @endif
+<p class="mb-1"><strong class="font-medium">{{ __('Copy:') }}</strong> #{{ $reservation->book_copy_id }} , {{__('Copy Number')}} {{ $reservation->book_copy ? $reservation->book_copy->copy_number : 'N/A' }}</p>                   @endif
                    @if($reservation->ready_for_pickup_date)
                        <p class="mb-1"><strong class="font-medium">{{ __('Ready Date:') }}</strong> {{ $reservation->ready_for_pickup_date->format('Y-m-d H:i:s') }}</p>
                    @endif
