@@ -7,7 +7,7 @@
 
     <div class="p-6">
 
-        <livewire-search-reservations />
+        <livewire-checkout-form />
     </div>
 
 </x-app-layout>

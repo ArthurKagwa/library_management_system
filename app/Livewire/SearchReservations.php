@@ -38,11 +38,18 @@ class SearchReservations extends Component
         }
     }
 
+    public function clearSearch()
+    {
+        $this->search = '';
+        $this->results = [];
+        $this->selectedReservation = null;
+    }
+
     public function selectReservation($reservationId)
     {
+
         $this->selectedReservation = Reservation::find($reservationId);
-        $this->search = ''; // Clear the search after selection
-        $this->results = [];
+        $this->clearSearch();
         $this->dispatch('reservationSelected', reservationId: $reservationId);
     }
 
