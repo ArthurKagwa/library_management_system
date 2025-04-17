@@ -1,7 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Models\Transaction; 
+use App\Models\Checkout;
+use App\Models\Transaction;
 use App\Models\Member;
 use App\Models\Reservation;
 use Illuminate\Http\Request;
@@ -18,19 +19,16 @@ class MemberController extends Controller
     }
     public function myBooks()
     {
-        // Get all books currently checked out by the member
-    $checkedOutBooks = Transaction::with(['bookCopy.book'])
-    ->where('user_id', Auth::id())
-    ->where('transaction_type', 'checkout')
-    ->whereNull('return_date')
-    ->get();
+        $checkedOutBooks = Checkout::with(['bookCopy.book'])
+            ->where('user_id', Auth::id())
+            ->whereNull('return_date')
+            ->get();
+        // Get all reservations
+            $reservations = Reservation::with('book')
+            ->where('user_id', Auth::id())
+            ->get();
 
-// Get all reservations
-$reservations = Reservation::with('book')
-    ->where('user_id', Auth::id())
-    ->get();
-
-return view('member.my-books', compact('checkedOutBooks', 'reservations'));
+            return view('member.my-books', compact('checkedOutBooks', 'reservations'));
     }
 
     /**

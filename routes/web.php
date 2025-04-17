@@ -1,12 +1,11 @@
 <?php
 
-use App\Models\Transaction;
 use App\Http\Controllers\{LibrarianController,
     ManagerController,
     MemberController,
     ProfileController,
     ReservationController,
-    TransactionController};
+  };
 use Illuminate\Support\Facades\Route;
 
 // Public routes
@@ -43,6 +42,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('reservations/{reservation}/edit', [ReservationController::class, 'edit'])->name('member.reservations.edit');
         //members reservation update
         Route::patch('reservations/{reservation}', [ReservationController::class, 'update'])->name('member.reservations.update');
+        //to my books
         Route::get('my-books', [MemberController::class, 'myBooks'])->name('member.my-books');
     });
 
@@ -61,8 +61,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
         //update reservation
         Route::patch('update-reservation/{reservation}', [ReservationController::class, 'update'])->name('reservations.update');
         Route::get('library-books', [LibrarianController::class, 'libraryBooks'])->name('librarian.books.index');
-    Route::post('library-books', [LibrarianController::class, 'storeBook'])->name('librarian.books.store');
-    Route::delete('library-books/{book}', [LibrarianController::class, 'destroyBook'])->name('librarian.books.destroy');
+        Route::post('library-books', [LibrarianController::class, 'storeBook'])->name('librarian.books.store');
+        Route::delete('library-books/{book}', [LibrarianController::class, 'destroyBook'])->name('librarian.books.destroy');
+
+        //to checkout page
+        Route::get('checkout', [LibrarianController::class, 'checkoutPage'])->name('librarian.checkout');
+
+
     });
 
 

@@ -10,7 +10,7 @@
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
                     <h3 class="text-lg font-medium mb-4">{{ __('Currently Checked Out Books') }}</h3>
-                    
+
                     @if($checkedOutBooks->isEmpty())
                         <p>{{ __('You have no books checked out at the moment.') }}</p>
                     @else
@@ -25,12 +25,12 @@
                                     </tr>
                                 </thead>
                                 <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200">
-                                    @foreach($checkedOutBooks as $transaction)
+                                    @foreach($checkedOutBooks as $checkout)
                                         <tr>
-                                            <td class="px-6 py-4 whitespace-nowrap">{{ $transaction->bookCopy->book->title }}</td>
-                                            <td class="px-6 py-4 whitespace-nowrap">{{ $transaction->bookCopy->book->author }}</td>
-                                            <td class="px-6 py-4 whitespace-nowrap">{{ $transaction->due_date->format('Y-m-d') }}</td>
-                                            <td class="px-6 py-4 whitespace-nowrap">{{ $transaction->bookCopy->copy_number }}</td>
+                                            <td class="px-6 py-4 whitespace-nowrap">{{ $checkout->bookCopy->book->title }}</td>
+                                            <td class="px-6 py-4 whitespace-nowrap">{{ $checkout->bookCopy->book->author }}</td>
+                                            <td class="px-6 py-4 whitespace-nowrap">{{ $checkout->due_date}}</td>
+                                            <td class="px-6 py-4 whitespace-nowrap">{{ $checkout->bookCopy->copy_number }}</td>
                                         </tr>
                                     @endforeach
                                 </tbody>
@@ -39,7 +39,7 @@
                     @endif
 
                     <h3 class="text-lg font-medium mt-8 mb-4">{{ __('My Reservations') }}</h3>
-                    
+
                     @if($reservations->isEmpty())
                         <p>{{ __('You have no active reservations.') }}</p>
                     @else
@@ -59,9 +59,9 @@
                                             <td class="px-6 py-4 whitespace-nowrap">{{ $reservation->book->title }}</td>
                                             <td class="px-6 py-4 whitespace-nowrap">{{ $reservation->book->author }}</td>
                                             <td class="px-6 py-4 whitespace-nowrap">
-                                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
-                                                    {{ $reservation->status === 'ready_for_pickup' ? 'bg-green-100 text-green-800' : 
-                                                       ($reservation->status === 'pending' ? 'bg-yellow-100 text-yellow-800' : 
+                                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full
+                                                    {{ $reservation->status === 'ready_for_pickup' ? 'bg-green-100 text-green-800' :
+                                                       ($reservation->status === 'pending' ? 'bg-yellow-100 text-yellow-800' :
                                                        ($reservation->status === 'cancelled' ? 'bg-gray-100 text-gray-800' : 'bg-blue-100 text-blue-800')) }}">
                                                     {{ ucfirst(str_replace('_', ' ', $reservation->status)) }}
                                                 </span>
