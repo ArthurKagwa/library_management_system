@@ -1,9 +1,12 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Models\Checkout;
+use App\Models\Transaction;
 use App\Models\Member;
+use App\Models\Reservation;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class MemberController extends Controller
 {
@@ -13,6 +16,19 @@ class MemberController extends Controller
     public function index()
     {
         return view('dashboard');
+    }
+    public function myBooks()
+    {
+        $checkedOutBooks = Checkout::with(['bookCopy.book'])
+            ->where('user_id', Auth::id())
+            ->whereNull('return_date')
+            ->get();
+        // Get all reservations
+            $reservations = Reservation::with('book')
+            ->where('user_id', Auth::id())
+            ->get();
+
+            return view('member.my-books', compact('checkedOutBooks', 'reservations'));
     }
 
     /**
@@ -69,7 +85,7 @@ class MemberController extends Controller
     public function reserveBookPage()
     {
 
-        return view('member.books.reserve');
+        return view('reservations.reserve');
     }
 
     public function reserveBook(Request $request)
@@ -80,5 +96,26 @@ class MemberController extends Controller
             'bookId' => $bookId,
             // Add any other data needed for your form
         ]);
+    }
+
+    public function updateReservationPage(Request $request, $reservationId)
+    {
+
+         $reservation = Reservation::find($reservationId);
+        if (!$reservation) {
+            return redirect()->route('member.my-reservations')->with('error', 'Reservation not found.');
+        }
+        return view('reservations.update-reservation', ['reservation' => $reservation])->with('success', 'Reservation updated successfully.');
+
+    }
+
+    public function myReservations()
+    {
+        $stats = Reservation::memberReservationStats(Auth::user()->id);
+        $reservations = Reservation::where('user_id', Auth::user()->id)
+            ->with(['user', 'book'])
+            ->orderBy('created_at', 'desc')
+            ->get();
+        return view('reservations.my-reservations', ['reservations' => $reservations, 'stats' => $stats]);
     }
 }

@@ -11,7 +11,7 @@
 
     </div>
     <div class="p-6">
-{{--        show reservations in table with actions--}}
+        {{--        show reservations in table with actions--}}
         <div class="bg-white dark:bg-gray-800 shadow-sm sm:rounded-lg overflow-hidden">
             <div class="overflow-x-auto">
                 <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
@@ -45,7 +45,7 @@
                                 {{ $reservation->user->name }}
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
-                                {{ $reservation->created_at->format('Y-m-d H:i:s') }}
+                                {{ $reservation->reservation_date->format('Y-m-d H:i:s') }}
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <span @class([
@@ -58,15 +58,9 @@
                                 </span>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                @if(Auth::user()->hasRole('librarian'))
-                                    <a href="{{ route('reservations.edit', $reservation->id) }}" class="text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300">
-                                        {{ __('Update') }}
-                                    </a>
-                                @else
-                                    <a href="{{ route('member.reservations.update', $reservation->id) }}" class="text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300">
-                                        {{ __('Edit') }}
-                                    </a>
-                                @endif
+                                <a href="{{ route('member.reservations.edit', $reservation->id) }}" class="text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300">
+                                    {{ __('Inspect') }}
+                                </a>
                             </td>
                         </tr>
                     @endforeach

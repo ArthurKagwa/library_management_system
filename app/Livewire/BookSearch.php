@@ -4,6 +4,7 @@ namespace App\Livewire;
 
 use App\Models\Book;
 use Livewire\Component;
+use Illuminate\Support\Facades\Log;
 
 class BookSearch extends Component
 {
@@ -21,6 +22,9 @@ class BookSearch extends Component
 
     protected function updateSearch()
     {
+        // Log for debugging
+        Log::info('Search updated', ['term' => $this->search]);
+
         if (strlen($this->search) > 0) {
             $this->results = Book::where('title', 'like', '%' . $this->search . '%')
                 ->orWhere('author', 'like', '%' . $this->search . '%')
@@ -32,11 +36,10 @@ class BookSearch extends Component
     }
     public function selectBook($bookId)
     {
-//        $this->selectedBookId =$bookId;
         $this->selectedBook = Book::find($bookId);
-        $this->search = $this->selectedBook->title ?? '';
+        $this->search = $this->selectedBook->title ?? ' ';
         $this->results = [];
-        $this->dispatch('bookSelected', $bookId); // Add this line
+        $this->dispatch('bookSelected', bookId: $bookId);
 
     }
 

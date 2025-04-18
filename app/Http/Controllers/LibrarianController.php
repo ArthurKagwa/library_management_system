@@ -45,6 +45,59 @@ class LibrarianController extends Controller
 
         ]);
     }
+    public function libraryBooks()
+{
+    $books = Book::with('copies')->paginate(10);
+    return view('librarian.library-books', compact('books'));
+}
+
+public function storeBook(Request $request)
+{
+    $validated = $request->validate([
+        'title' => 'required|string|max:255',
+        'author' => 'required|string|max:255',
+        'isbn' => 'required|string|unique:books,isbn',
+        'quantity' => 'required|integer|min:1',
+        'description' => 'nullable|string',
+        'published_date' => 'nullable|date',
+    ]);
+
+    // Create the book
+    $book = Book::create($validated);
+
+    // Create the specified number of copies
+    for ($i = 1; $i <= $validated['quantity']; $i++) {
+        BookCopy::create([
+            'book_id' => $book->id,
+            'copy_number' => $i,
+            'status' => 'available',
+            'condition' => 'good',
+            'acquisition_date' => now(),
+            'location' => 'Main Shelf'
+        ]);
+    }
+
+    return redirect()->route('librarian.books.index')
+        ->with('success', 'Book and copies added successfully');
+}
+
+public function destroyBook(Book $book)
+{
+    // Check if any copies are checked out before deletion
+    if ($book->copies()->where('status', '!=', 'available')->exists()) {
+        return redirect()->back()
+            ->with('error', 'Cannot delete book - some copies are still checked out or reserved');
+    }
+
+    // Delete all copies first
+    $book->copies()->delete();
+
+    // Then delete the book
+    $book->delete();
+
+    return redirect()->route('librarian.books.index')
+        ->with('success', 'Book and all copies deleted successfully');
+}
 
     /**
      * Show the form for creating a new resource.
@@ -69,6 +122,8 @@ class LibrarianController extends Controller
     {
         //
     }
+
+
 
     /**
      * Show the form for editing the specified resource.
@@ -123,6 +178,15 @@ class LibrarianController extends Controller
             'bookId' => $bookId,
             // Add any other data needed for your form
         ]);
+    }
+
+    /**
+     * Route to checkout page
+     */
+    public function checkoutPage(){
+
+        return view('librarian.checkout');
+
     }
 
 }

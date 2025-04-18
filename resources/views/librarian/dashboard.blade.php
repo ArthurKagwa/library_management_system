@@ -66,19 +66,7 @@
                                         {{ $transaction->created_at->format('M d, Y') }}
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
-                                        @if($transaction->returned_at)
-                                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-100">
-                                                Returned
-                                            </span>
-                                        @elseif($transaction->due_date < now())
-                                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-100">
-                                                Overdue
-                                            </span>
-                                        @else
-                                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-100">
-                                                Checked Out
-                                            </span>
-                                        @endif
+
                                     </td>
                                 </tr>
                             @endforeach

@@ -21,12 +21,12 @@ class BookCopy extends Model
 //create enumfor condition
     const STATUS_AVAILABLE = 'available';
     const STATUS_CHECKED_OUT = 'checked_out';
-    public $status = [
-        'available',
-        'checked_out',
-        'reserved',
-        'in_repair'
-    ];
+//    public $status = [
+//        'available',
+//        'checked_out',
+//        'reserved',
+//        'in_repair'
+//    ];
 
 
     protected $fillable = [
@@ -40,6 +40,7 @@ class BookCopy extends Model
 
     protected $casts = [
         'acquisition_date' => 'date',
+        'status' => 'string', // Cast status to string
     ];
 
     // Define relationships
@@ -51,11 +52,22 @@ class BookCopy extends Model
     /*
      * Select available copy of particular book given book_id
      */
-    public static function getAvailableCopies($bookId)
-        {
-           return self::where('book_id', $bookId)
-                                  ->where('status', 'available')
-                                  ->get();
+    public static function getAvailableCopies($bookId){
+       return self::where('book_id', $bookId)
+                              ->where('status', 'available')
+                              ->get();
+    }
+
+//change status to checked_out;
+    public static function checkout($copyId)
+    {
+        $copy = self::find($copyId);
+        if ($copy) {
+            $copy->status = self::STATUS_CHECKED_OUT;
+            $copy->save();
+            return $copy;
         }
+        return null;
+    }
 
 }
