@@ -3,49 +3,34 @@
 namespace App\Notifications;
 
 use Illuminate\Bus\Queueable;
+use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
-use Illuminate\Notifications\Notification;
 
 class CheckoutNotification extends Notification
 {
     use Queueable;
 
-    /**
-     * Create a new notification instance.
-     */
-    public function __construct()
+    protected $checkout;
+
+    public function __construct($checkout)
     {
-        //
+        $this->checkout = $checkout;
     }
 
-    /**
-     * Get the notification's delivery channels.
-     *
-     * @return array<int, string>
-     */
-    public function via(object $notifiable): array
+    public function via($notifiable)
     {
         return ['mail'];
     }
 
-    /**
-     * Get the mail representation of the notification.
-     */
-    public function toMail(object $notifiable): MailMessage
+    public function toMail($notifiable)
     {
-        return (new MailMessage)->markdown('mail.checkout-notification');
-    }
-
-    /**
-     * Get the array representation of the notification.
-     *
-     * @return array<string, mixed>
-     */
-    public function toArray(object $notifiable): array
-    {
-        return [
-            //
-        ];
+        return (new MailMessage)
+            ->subject('Checkout Confirmation')
+            ->greeting('Hello ' . $notifiable->name . ',')
+            ->line('Your checkout for the book "' . $this->checkout->book->title . '" has been successfully processed.')
+            ->line('Due Date: ' . $this->checkout->due_date)
+            ->action('View Details', url('/member/checkout/' . $this->checkout->id))
+            ->line('Thank you for using our library!');
     }
 }

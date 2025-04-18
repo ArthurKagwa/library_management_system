@@ -1,11 +1,11 @@
 <?php
 
-use App\Http\Controllers\{LibrarianController,
+use App\Http\Controllers\{CheckoutController,
+    LibrarianController,
     ManagerController,
     MemberController,
     ProfileController,
-    ReservationController,
-  };
+    ReservationController};
 use Illuminate\Support\Facades\Route;
 
 // Public routes
@@ -44,6 +44,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::patch('reservations/{reservation}', [ReservationController::class, 'update'])->name('member.reservations.update');
         //to my books
         Route::get('my-books', [MemberController::class, 'myBooks'])->name('member.my-books');
+        //to checkouts page
+        Route::get('checkouts', [MemberController::class, 'checkouts'])->name('member.checkouts');
+        //to view checkout page
+        Route::get('checkout/{checkoutId}', [CheckOutController::class, 'view'])->name('member.view-checkout');
+
+
     });
 
     // Librarian routes
