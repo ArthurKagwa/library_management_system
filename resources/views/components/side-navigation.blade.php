@@ -118,6 +118,14 @@
                         </svg>
                         <span>Manage Staff</span>
                     </a>
+
+{{--                    Lending fees--}}
+                    <a href="{{ route('manager.lending-fees') }}"
+                       class="flex items-center px-4 py-2 mb-2 rounded-md {{ request()->routeIs('manager.lending-fees') ? 'bg-secondary-accent text-white' : 'text-primary bg-secondary dark:text-primary-dark  dark:bg-secondary-dark hover:bg-gray-100 dark:hover:bg-primary' }}">
+                        <x-icon name="check-circle" class="w-5 h-5 mr-3" />
+                        <span>Lending Fees</span>
+                    </a>
+
                 @endif
 
                 <!-- Logout -->

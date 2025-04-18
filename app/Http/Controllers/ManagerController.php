@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\LendingFee;
 use App\Models\Manager;
 use App\Models\User;
 use App\Notifications\UserDemotedNotification;
@@ -11,20 +12,10 @@ use Spatie\Permission\Models\Role;
 
 class ManagerController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        return view('manager.dashboard');
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+    public function lendingFees(){
+        //get all lending fees
+        $fees = LendingFee::orderBy('duration_days', 'desc')->get();
+        return view('manager.lending-fees', compact('fees'));
     }
     public function demote (User $user)
     {
@@ -76,44 +67,14 @@ class ManagerController extends Controller
         return view('manager.staff', compact('users'));
     }
 
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function viewLendingFee(LendingFee $fee)
     {
-        //
+        return view('manager.lending-fee-view', compact('fee'));
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Manager $manager)
+    public function editLendingFee(LendingFee $fee)
     {
-        //
+        return view('manager.lending-fee-edit', compact('fee'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Manager $manager)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Manager $manager)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Manager $manager)
-    {
-        //
-    }
 }
