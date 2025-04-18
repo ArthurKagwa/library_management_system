@@ -86,7 +86,7 @@
                         <span>Manage Books</span>
                     </a>
                     <a href="{{ route('librarian.checkout') }}"
-                           class="flex items-center px-4 py-2 mb-2 rounded-md {{ request()->routeIs('librarian.books') ? 'bg-secondary-accent text-white' : 'text-primary bg-secondary dark:text-primary-dark  dark:bg-secondary-dark hover:bg-gray-100 dark:hover:bg-primary' }}">
+                           class="flex items-center px-4 py-2 mb-2 rounded-md {{ request()->routeIs('librarian.checkout') ? 'bg-secondary-accent text-white' : 'text-primary bg-secondary dark:text-primary-dark  dark:bg-secondary-dark hover:bg-gray-100 dark:hover:bg-primary' }}">
                         <x-icon name="book" class="w-5 h-5 mr-3" />
                         <span>Checkout</span>
                     </a>
