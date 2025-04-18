@@ -26,62 +26,16 @@ class MemberController extends Controller
         // Get all reservations
             $reservations = Reservation::with('book')
             ->where('user_id', Auth::id())
+            ->whereNotIn('status', ['picked_up'])
+
             ->get();
 
             return view('member.my-books', compact('checkedOutBooks', 'reservations'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Member $member)
-    {
-        //
-    }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Member $member)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Member $member)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Member $member)
-    {
-        //
-    }
-
-    /**
-     * Show the form for reserving a book.
-     */
     public function reserveBookPage()
     {
 
@@ -96,6 +50,16 @@ class MemberController extends Controller
             'bookId' => $bookId,
             // Add any other data needed for your form
         ]);
+    }
+
+    public function checkouts()
+    {
+        $checkouts= Checkout::with(['bookCopy.book'])
+            ->where('user_id', Auth::id())
+            ->whereNull('return_date')
+            ->get();
+
+return view('member.checkouts', compact('checkouts'));
     }
 
     public function updateReservationPage(Request $request, $reservationId)

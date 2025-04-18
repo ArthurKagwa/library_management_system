@@ -6,6 +6,7 @@
     use App\Models\BookCopy;
     use App\Models\Checkout;
     use App\Models\Reservation;
+    use App\Notifications\CheckoutNotification;
     use Illuminate\Support\Facades\Auth;
     use Illuminate\Support\Facades\Log;
     use Livewire\Component;
@@ -155,6 +156,11 @@
                 $checkout->reservation_id = $this->reservationId;
                 $checkout->staff_id = $this->staff_id;
                 $checkout->save();
+
+                // Notify the user
+                $this->selectedReservation->user->notify(new CheckoutNotification($checkout));
+
+
                 $this->updateReservationStatus();
                 // Process checkout logic here...
                 $this->successMessage = 'Book successfully checked out!';
