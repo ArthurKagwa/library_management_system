@@ -68,7 +68,7 @@ public function submit()
         if ($existingReservation) {
             if(Auth::user()->hasRole('librarian')){
                 return redirect()->route('librarian.books.reserve', $this->bookId)
-                    ->with('error', 'You have already reserved or checked out this book.');
+                    ->with('error', 'Member has already reserved or checked out this book.');
             }
             return redirect()->route('member.books.reserve', $this->bookId)
                 ->with('error', 'You have already reserved or checked out this book.');
@@ -104,10 +104,10 @@ public function submit()
         } else {
             // Book is available, allow immediate checkout
             if(Auth::check() && Auth::user()->hasRole('librarian')) {
-                return redirect()->route('librarian.dashboard', ['book_id' => $this->bookId, 'user_id' => $this->userId])
+                return redirect()->route('librarian.dashboard')
                     ->with('error', 'This book is currently unavailable.');
             }
-            return redirect()->route('member.reservations.index')
+            return redirect()->route('member.my-reservations')
                 ->with('error', 'This book is already reserved.');
         }
     }

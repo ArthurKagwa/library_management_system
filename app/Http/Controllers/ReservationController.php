@@ -79,6 +79,7 @@ public function update(Request $request, Reservation $reservation){
                     'actual_pickup_date' => 'nullable|date|after:ready_for_pickup_date',
                     'notification_sent' => 'boolean',
                     'book_copy_id' => 'required|exists:book_copies,id',
+                    'staff_id' => 'required'
                 ]);
             } else {
                 $validated = $request->validate([
@@ -89,10 +90,43 @@ public function update(Request $request, Reservation $reservation){
             }
 
 
-            $bookCopy = BookCopy::find($request->book_copy_id);
-            if($bookCopy){
+            try {
+                $bookCopy = BookCopy::find($request->book_copy_id);
+
+                if (!$bookCopy) {
+                    // Log error if the book copy is not found
+                    \Log::error('Book copy not found', [
+                        'book_copy_id' => $request->book_copy_id,
+                        'reservation_id' => $reservation->id ?? null,
+                    ]);
+                    return redirect()->back()->with('error', 'Book copy not found. Please select a valid book copy.');
+                }
+
+                // Log the current details of the book copy
+                \Log::info('Attempting to update book copy', [
+                    'book_copy_id' => $bookCopy->id,
+                    'current_status' => $bookCopy->status,
+                ]);
+
+                // Update the book copy status
                 $bookCopy->status = 'reserved';
                 $bookCopy->save();
+
+                // Log success
+                \Log::info('Book copy status updated successfully', [
+                    'book_copy_id' => $bookCopy->id,
+                    'new_status' => $bookCopy->status,
+                ]);
+            } catch (\Exception $e) {
+                // Log the exception details
+                \Log::error('Error updating book copy', [
+                    'book_copy_id' => $request->book_copy_id,
+                    'message' => $e->getMessage(),
+                    'trace' => $e->getTraceAsString(),
+                ]);
+
+                // Prevent further progress
+                return redirect()->back()->with('error', 'An error occurred while updating the book copy: ' . $e->getMessage());
             }
 
 

@@ -97,6 +97,7 @@
                                           value="{{ $reservation->ready_for_pickup_date ? date('Y-m-d\TH:i', strtotime($reservation->ready_for_pickup_date)) : \Carbon\Carbon::now()->addDay()->nextWeekday()->format('Y-m-d\TH:i') }}" required />
                             @error('ready_for_pickup_date') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
                     </div>
+                    <input class="hidden" type="text" name="staff_id" id="staff_id" value="{{Auth::id()}}" ">
                     <div class="mb-4">
                         <x-input-label for="pickup_deadline" :value="__('Pickup Deadline')" />
                         <x-text-input id="pickup_deadline" name="pickup_deadline" type="datetime-local"
@@ -138,6 +139,7 @@
                    <p class="mb-1"><strong class="font-medium">{{ __('Author:') }}</strong> {{ $reservation->book->author }}</p>
                    <p><strong class="font-medium">{{ __('ISBN:') }}</strong> {{ $reservation->book->isbn }}</p>
                </div>
+
 
                <div class="border-b border-gray-200 dark:border-gray-700 pb-2">
                    <h4 class="text-sm font-medium text-gray-500 dark:text-gray-400 uppercase mb-2">{{ __('Member Information') }}</h4>

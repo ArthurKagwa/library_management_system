@@ -70,45 +70,39 @@
                 // Create the checkout record
                 $checkout = new Checkout();
                 $checkout->book_copy_id = $this->selectedReservation->book_copy_id;
-
+                $copyId = $this->selectedReservation->book_copy_id;
 
 // To this implementation that ensures the status is updated
-                try {
-                    $bookCopy = BookCopy::find($this->selectedReservation->book_copy_id);
+             try {
+                  $bookCopy = BookCopy::find($copyId);
 
-                    if (!$bookCopy) {
-                        Log::error('Book copy not found', [
-                            'book_copy_id' => $this->selectedReservation->book_copy_id,
-                            'reservation_id' => $this->reservationId
-                        ]);
-                        $this->errorMessage = 'Error processing checkout: Book copy not found';
-                        return;
-                    }
+                  if (!$bookCopy) {
+                      Log::error('Book copy not found', ['book_copy_id' => $copyId]);
+                      return;
+                  }
 
-                    if ($bookCopy->status === 'checked_out') {
-                        Log::info('Book copy already checked out', [
-                            'book_copy_id' => $bookCopy->id,
-                            'current_status' => $bookCopy->status
-                        ]);
-                    } else {
-                        $bookCopy->status = 'checked_out';
-                        $bookCopy->save();
+                  // Ensure status is logged as a string
+                  Log::info('Current book copy status', [
+                      'book_copy_id' => $bookCopy->id,
+                      'current_status' => (string) $bookCopy->status,
+                  ]);
 
-                        Log::info('Book copy status updated successfully', [
-                            'book_copy_id' => $bookCopy->id,
-                            'new_status' => $bookCopy->status,
-                            'was_saved' => $bookCopy->wasChanged('status')
-                        ]);
-                    }
-                } catch (\Exception $e) {
-                    Log::error('Exception when updating book copy', [
-                        'book_copy_id' => $this->selectedReservation->book_copy_id,
-                        'message' => $e->getMessage(),
-                        'trace' => $e->getTraceAsString()
-                    ]);
-                    $this->errorMessage = 'Error updating book copy: ' . $e->getMessage();
-                    return;
-                }
+                  if ($bookCopy->status !== BookCopy::STATUS_CHECKED_OUT) {
+                      $bookCopy->status = BookCopy::STATUS_CHECKED_OUT;
+                      $bookCopy->save();
+
+                      Log::info('Book copy status updated successfully', [
+                          'book_copy_id' => $bookCopy->id,
+                          'new_status' => $bookCopy->status,
+                          'was_saved' => $bookCopy->wasChanged('status'),
+                      ]);
+                  }
+              } catch (\Exception $e) {
+                  Log::error('Error updating book copy', [
+                      'book_copy_id' => $copyId,
+                      'message' => $e->getMessage(),
+                  ]);
+              }
 //                Log::info('Book copy found', ['book_copy_id' => $this->selectedReservation->book_copy_id]);
 
 // Update the status
