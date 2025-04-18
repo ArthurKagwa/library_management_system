@@ -1,6 +1,7 @@
 <?php
 
-use App\Http\Controllers\{CheckoutController,
+use App\Http\Controllers\{BookController,
+    CheckoutController,
     LibrarianController,
     ManagerController,
     MemberController,
@@ -48,6 +49,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('checkouts', [MemberController::class, 'checkouts'])->name('member.checkouts');
         //to view checkout page
         Route::get('checkout/{checkoutId}', [CheckOutController::class, 'view'])->name('member.view-checkout');
+
+        //to explore page
+        Route::get('explore', [MemberController::class, 'explore'])->name('member.explore');
+        //to view book page
+        Route::get('books/{book}', [BookController::class, 'viewBook'])->name('view.book');
 
 
     });

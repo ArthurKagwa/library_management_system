@@ -34,6 +34,15 @@
                         <x-icon name="book" class="w-5 h-5 mr-3" />
                         <span>Dashboard</span>
                     </a>
+
+{{--                EXPLORE--}}
+                    <a href="{{ route('member.explore') }}"
+                       class="flex items-center px-4 py-2 mb-2 rounded-md {{ request()->routeIs('member.explore') ? 'bg-secondary-accent text-white' : 'text-primary bg-secondary dark:text-primary-dark  dark:bg-secondary-dark hover:bg-gray-100 dark:hover:bg-primary' }}">
+                        <x-icon name="book" class="w-5 h-5 mr-3" />
+                        <span>Explore Books</span>
+                    </a>
+
+
                      <a href="{{ route('member.my-books') }}"
                        class="flex items-center px-4 py-2 mb-2 rounded-md {{ request()->routeIs('member.my-books') ? 'bg-secondary-accent text-white' : 'text-primary bg-secondary dark:text-primary-dark  dark:bg-secondary-dark hover:bg-gray-100 dark:hover:bg-primary' }}">
                         <x-icon name="inbox" class="w-5 h-5 mr-3" />
