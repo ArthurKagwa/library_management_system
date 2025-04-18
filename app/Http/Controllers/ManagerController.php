@@ -12,6 +12,10 @@ use Spatie\Permission\Models\Role;
 
 class ManagerController extends Controller
 {
+    public function index()
+    {
+        return view('manager.dashboard');
+    }
 
     public function demote (User $user)
     {
