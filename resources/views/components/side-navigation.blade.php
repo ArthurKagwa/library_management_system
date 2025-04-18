@@ -1,15 +1,6 @@
 <!-- resources/views/components/side-navigation.blade.php -->
 <div x-data="{ open: false }" class="relative">
-    <!-- Mobile menu button -->
-    <div class="md:hidden flex items-center px-4 py-3">
-        <button @click="open = !open" class="text-gray-500 hover:text-primary focus:outline-none">
-            <x-icon name="book" class="w-6 h-6" x-show="!open" />
-            <svg x-show="open" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-            </svg>
-        </button>
-        <span class="ml-2 text-lg font-medium">Library System</span>
-    </div>
+
 
     <!-- Side navigation -->
     <nav class="bg-white dark:bg-gray-800 border-r dark:border-secondary-dark shadow-sm
@@ -19,9 +10,8 @@
          :class="{'translate-x-0': open, '-translate-x-full md:translate-x-0': !open}">
 
         <div class="p-5">
-            <div class="flex items-center justify-between md:justify-start">
+            <div class="flex items-center justify-between md:justify-start text-primary dark:text-primary-dark ">
                 <div class="flex items-center">
-                    <x-application-logo />
                     <h1 class="text-xl font-bold ml-2">{{env('APP_NAME')}}</h1>
                 </div>
                 <button @click="open = false" class="md:hidden text-gray-500 hover:text-primary focus:outline-none">
