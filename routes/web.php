@@ -90,6 +90,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('lending_fees',[ManagerController::class, 'lendingFees'])->name('manager.lending-fees');
         Route::get('lending-fees/{fee}', [ManagerController::class, 'viewLendingFee'])->name('manager.lending-fees.view');
         Route::get('lending-fees/{fee}/edit', [ManagerController::class, 'editLendingFee'])->name('manager.lending-fees.edit');
+        Route::put('manager/lending-fees/{fee}', [ManagerController::class, 'updateLendingFee'])->name('manager.lending-fees.update');
     });
 });
 

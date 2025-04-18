@@ -12,11 +12,7 @@ use Spatie\Permission\Models\Role;
 
 class ManagerController extends Controller
 {
-    public function lendingFees(){
-        //get all lending fees
-        $fees = LendingFee::orderBy('duration_days', 'desc')->get();
-        return view('manager.lending-fees', compact('fees'));
-    }
+
     public function demote (User $user)
     {
         if (!auth()->user()->hasRole('manager')) {
@@ -67,6 +63,15 @@ class ManagerController extends Controller
         return view('manager.staff', compact('users'));
     }
 
+
+
+
+    public function lendingFees(){
+        //get all lending fees
+        $fees = LendingFee::orderBy('duration_days', 'desc')->get();
+        return view('manager.lending-fees', compact('fees'));
+    }
+
     public function viewLendingFee(LendingFee $fee)
     {
         return view('manager.lending-fee-view', compact('fee'));
@@ -75,6 +80,24 @@ class ManagerController extends Controller
     public function editLendingFee(LendingFee $fee)
     {
         return view('manager.lending-fee-edit', compact('fee'));
+    }
+
+    public function updateLendingFee(Request $request, LendingFee $fee)
+    {
+        // Validate the request
+        $request->validate([
+            'category' => 'required|string|max:255',
+            'duration_days' => 'required|integer|min:1',
+            'fee_amount' => 'required|numeric|min:0',
+            'effective_from' => 'required|date',
+            'effective_to' => 'nullable|date|after_or_equal:effective_from',
+        ]);
+
+        // Update the lending fee
+        $fee->update($request->all());
+
+        return redirect()->route('manager.lending-fees')
+            ->with('success', 'Lending fee updated successfully.');
     }
 
 }
