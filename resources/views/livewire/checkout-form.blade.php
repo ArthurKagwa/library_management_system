@@ -33,31 +33,18 @@
 
     <form wire:submit.prevent="completeCheckout">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-            <div>
-                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Checkout Date</label>
-                <input type="date" wire:model="checkoutDate" class="w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 rounded-md shadow-sm">
-            </div>
 
             <div>
-                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Due Date</label>
-                <input type="date" wire:model="dueDate" class="w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 rounded-md shadow-sm">
-            </div>
-
-            <div>
-                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Book Condition</label>
-                <select wire:model="checkoutCondition" class="w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 rounded-md shadow-sm">
-                    <option value="excellent">Excellent</option>
-                    <option value="good">Good</option>
-                    <option value="fair">Fair</option>
-                    <option value="poor">Poor</option>
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Duration of loan</label>
+                <select wire:model="duration" class="w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 rounded-md shadow-sm">
+                    <option value="">Select Duration</option>
+                    <option value="7">1 Week</option>
+                    <option value="14">2 Weeks</option>
+                    <option value="30">1 Month</option>
                 </select>
             </div>
-
-            <div>
-                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Base Fee (UGX)</label>
-                <input type="number" wire:model="baseFee" class="w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 rounded-md shadow-sm">
-            </div>
         </div>
+        <span class="text-sm text-gray-500 dark:text-gray-400 italic">{{ __('Base Fee will be calculated based on the duration selected.') }}</span>
 
         <div class="flex justify-end">
             <button

@@ -2,6 +2,7 @@
 
     namespace App\Livewire;
 
+    use App\Http\Controllers\LendingFeeController;
     use App\Models\BookCopy;
     use App\Models\Checkout;
     use App\Models\Reservation;
@@ -16,13 +17,11 @@
         public $reservationId;
         public $selectedReservation = null;
         public $checkoutDate;
-        public $dueDate;
 
         public $staff_id;
-        public $checkoutCondition = 'good';
-        public $baseFee = 2000; // Default fee in cents
         public $successMessage = '';
         public $errorMessage = '';
+        public $duration;
 
         public function mount()
         {
@@ -71,9 +70,7 @@
                 $checkout = new Checkout();
                 $checkout->book_copy_id = $this->selectedReservation->book_copy_id;
                 $copyId = $this->selectedReservation->book_copy_id;
-
-// To this implementation that ensures the status is updated
-             try {
+                try {
                   $bookCopy = BookCopy::find($copyId);
 
                   if (!$bookCopy) {
@@ -103,39 +100,16 @@
                       'message' => $e->getMessage(),
                   ]);
               }
-//                Log::info('Book copy found', ['book_copy_id' => $this->selectedReservation->book_copy_id]);
-
-// Update the status
-                $bookCopy->status = 'checked_out';
-                $bookCopy->save();
-
                 $checkout->user_id = $this->selectedReservation->user_id;
-                $checkout->checkout_date = $this->checkoutDate;
-                $checkout->due_date = $this->dueDate;
-                $checkout->checkout_condition = $this->checkoutCondition;
-                $checkout->base_fee = $this->baseFee;
+                //add duration selected to now
+                $checkout->checkout_date = now()->format('Y-m-d');
+                $checkout->due_date = now()->addDays($this->duration)->format('Y-m-d');
+                $checkout->checkout_condition = $bookCopy->condition;
+                $checkout->base_fee = LendingFeeController::calculateBaseFee($copyId, $this->duration);
                 $checkout->reservation_id = $this->reservationId;
                 $checkout->staff_id = $this->staff_id;
                 $checkout->save();
-
-                // Update reservation status
-                $this->selectedReservation->status = "picked_up";
-                $this->selectedReservation->actual_pickup_date = now();
-                $this->selectedReservation->save();
-
-               // Update book copy status - with null check
-//                $bookCopy = BookCopy::find($this->selectedReservation->book_copy_id);
-//                if ($bookCopy) {
-//                    $bookCopy->status = 'checked_out';
-//                    $bookCopy->save();
-//                } else {
-//                    // Log this issue or add to error message
-//                    \Log::warning('Book copy not found: ' . $this->selectedReservation->book_copy_id);
-//                    $this->errorMessage = 'Error processing checkout: Book copy not found';
-//                    return;
-//                }
-
-
+                $this->updateReservationStatus();
 
                 $this->successMessage = 'Book successfully checked out!';
                 $this->reset(['reservationId', 'selectedReservation', 'checkoutCondition']);
@@ -149,5 +123,15 @@
         public function render()
         {
             return view('livewire.checkout-form');
+        }
+
+        /**
+         * @return void
+         */
+        public function updateReservationStatus(): void
+        {
+            $this->selectedReservation->status = "picked_up";
+            $this->selectedReservation->actual_pickup_date = now();
+            $this->selectedReservation->save();
         }
     }
