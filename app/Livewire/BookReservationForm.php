@@ -108,7 +108,7 @@ public function submit()
                     ->with('error', 'This book is currently unavailable.');
             }
             return redirect()->route('member.my-reservations')
-                ->with('error', 'This book is already reserved.');
+                ->with('error', 'This book is currently unavailable.');
         }
     }
     public function render()
