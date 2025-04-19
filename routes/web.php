@@ -52,6 +52,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
         //to explore page
         Route::get('explore', [MemberController::class, 'explore'])->name('member.explore');
+        //to search a book
+        Route::get('/books/search', [BookController::class, 'search']);
         //to view book page
         Route::get('books/{book}', [BookController::class, 'viewBook'])->name('view.book');
 

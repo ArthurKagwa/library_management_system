@@ -14,7 +14,23 @@ class BookController extends Controller
         $available=Book::available($bookId);
         return view('books.view', compact('book', 'available'));
     }
-
+    
+    public function search(Request $request)
+    {
+        $query = $request->input('query');
+        
+        if (empty($query) || strlen($query) < 2) {
+            return response()->json([]);
+        }
+        
+        $books = Book::where('title', 'like', '%' . $query . '%')
+            ->select('id', 'title')
+            ->orderBy('title')
+            ->limit(10)
+            ->get();
+            
+        return response()->json($books);
+    }
 
 
 }
