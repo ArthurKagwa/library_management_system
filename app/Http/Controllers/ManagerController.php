@@ -37,11 +37,7 @@ class ManagerController extends Controller
             ->with('success', "Librarian {$user->name} has been demoted.");
 
     }
-    public function index()
-    {
-        return view('manager.dashboard');
-    }
-
+    
     public function upgradeToLibrarian(Request $request, User $user)
     {
         // Verify current user is a manager

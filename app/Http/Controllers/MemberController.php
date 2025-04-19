@@ -8,7 +8,7 @@ use App\Models\Member;
 use App\Models\Reservation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Models\Checkout;
+
 
 class MemberController extends Controller
 {
