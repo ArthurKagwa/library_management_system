@@ -37,7 +37,7 @@ class ManagerController extends Controller
             ->with('success', "Librarian {$user->name} has been demoted.");
 
     }
-    
+
     public function upgradeToLibrarian(Request $request, User $user)
     {
         // Verify current user is a manager
@@ -62,8 +62,7 @@ class ManagerController extends Controller
     public function staff()
     {
         // Get all users with their roles
-        $users = User::with('roles')->get();
-
+$users = User::role('librarian')->with('roles')->get();
         return view('manager.staff', compact('users'));
     }
 
