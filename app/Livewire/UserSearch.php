@@ -26,7 +26,7 @@ class UserSearch extends Component
         Log::info('Search updated', ['term' => $this->search]);
 
         if (strlen($this->search) > 0) {
-            $this->results = User::where('name', 'like', '%' . $this->search . '%')
+            $this->results = User::where('name', 'like', '%' . $this->search . '%')->orWhere('email', 'like', '%' . $this->search . '%')
                 ->take(5)
                 ->get();
         } else {
@@ -40,8 +40,6 @@ class UserSearch extends Component
         $this->selectedUser = User::find($userId);
         $this->search = $this->selectedUser->name ?? '';
         $this->results = [];
-
-        // Emit event with the user ID
         $this->dispatch('userSelected', userId: $userId);
 
     }

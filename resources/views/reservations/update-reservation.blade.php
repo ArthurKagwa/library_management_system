@@ -3,16 +3,6 @@
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
             {{ __('Librarian Reservations Handling') }}
         </h2>
-        @if (session('success'))
-            <div class="mb-4 text-sm text-green-600 dark:text-green-400">
-                {{ session('success') }}
-            </div>
-        @endif
-        @if (session('error'))
-            <div class="mb-4 text-sm text-red-600 dark:text-red-400">
-                {{ session('error') }}
-            </div>
-        @endif
     </x-slot>
 
 
@@ -42,7 +32,6 @@
                     <div class="mb-4">
                         <x-input-label for="status" class="block text-sm font-medium text-gray-700 dark:text-gray-300">{{ __('Status') }}</x-input-label>
                         <select id="status" name="status" class="w-full border-primary-dark dark:border-primary dark:bg-secondary-dark dark:text-primary-dark focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm">
-                            <option value="pending" {{ $reservation->status === 'pending' ? 'selected' : '' }}>{{ __('Pending') }}</option>
                             <option value="ready_for_pickup" {{ $reservation->status === 'ready_for_pickup' ? 'selected' : '' }}>{{ __('Ready for Pickup') }}</option>
                             <option value="picked_up" {{ $reservation->status === 'picked_up' ? 'selected' : '' }}>{{ __('Picked Up') }}</option>
                             <option value="expired" {{ $reservation->status === 'expired' ? 'selected' : '' }}>{{ __('Expired') }}</option>
@@ -53,17 +42,19 @@
                     <div class="mb-4">
                         <x-input-label for="book_copy_id" :value="__('Copy ID')" />
                         <select id="book_copy_id" name="book_copy_id" class="mt-1 block w-full" required>
-                            @if ($reservation->book_copy_id)
-                                <option value="{{ $reservation->book_copy_id }}" selected>
-                                    {{ __('Current Copy #:') }} {{ $reservation->book_copy_id }}
-                                </option>
-                            @endif
+                          @if ($reservation->book_copy_id)
+                              <option value="{{ $reservation->book_copy_id }}" selected>
+                                  {{ __('Current Copy number:') }} {{ $reservation->book_copy ? $reservation->book_copy->copy_number : 'N/A' }} ,
+                                  {{ __('Copy ID:') }} {{ $reservation->book_copy_id }}
+                              </option>
+                          @endif
 
                             @if (!empty($availableCopies))
                                 @foreach ($availableCopies as $copy)
                                     @if ($reservation->book_copy_id != $copy->id)
                                         <option value="{{ $copy->id }}">
-                                            {{ __('Copy #:') }} {{ $copy->copy_number }}
+                                            {{ __('Copy Number:') }} {{ $copy->copy_number }} ,
+                                            {{ __('Copy ID:') }} {{ $copy->id }}
                                         </option>
                                     @endif
                                 @endforeach
@@ -99,22 +90,22 @@
 
 
                 @if(Auth::check() && Auth::user()->hasRole('librarian'))
-                        <div class="mb-4">
+<div class="mb-4">
                             <x-input-label for="ready_for_pickup_date" :value="__('Ready for Pickup Date')" />
                             <x-text-input id="ready_for_pickup_date" name="ready_for_pickup_date" type="datetime-local"
                                           class="mt-1 block w-full"
-                                          value="{{ $reservation->ready_for_pickup_date ? date('Y-m-d\TH:i', strtotime($reservation->ready_for_pickup_date)) : old('ready_for_pickup_date') }}" required />
+                                          value="{{ $reservation->ready_for_pickup_date ? date('Y-m-d\TH:i', strtotime($reservation->ready_for_pickup_date)) : \Carbon\Carbon::now()->addDay()->nextWeekday()->format('Y-m-d\TH:i') }}" required />
                             @error('ready_for_pickup_date') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
-                        </div>
-
+                    </div>
+                    <input class="hidden" type="text" name="staff_id" id="staff_id" value="{{Auth::id()}}" ">
                     <div class="mb-4">
                         <x-input-label for="pickup_deadline" :value="__('Pickup Deadline')" />
                         <x-text-input id="pickup_deadline" name="pickup_deadline" type="datetime-local"
                                       class="mt-1 block w-full"
-                                      value="{{ $reservation->pickup_deadline ? date('Y-m-d\TH:i', strtotime($reservation->pickup_deadline)) : old('pickup_deadline') }}" required />
+                                      value="{{ $reservation->ready_for_pickup_date ? date('Y-m-d\TH:i', strtotime($reservation->ready_for_pickup_date . ' +2 days')) : old('pickup_deadline') }}" required />
                         @error('pickup_deadline') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
                     </div>
-                    <div class="mb-4">
+                        <div class="mb-4">
                         <label for="notification_sent" class="inline-flex items-center">
                             <input type="checkbox" id="notification_sent" name="notification_sent" value="1"
                                    class="rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
@@ -149,6 +140,7 @@
                    <p><strong class="font-medium">{{ __('ISBN:') }}</strong> {{ $reservation->book->isbn }}</p>
                </div>
 
+
                <div class="border-b border-gray-200 dark:border-gray-700 pb-2">
                    <h4 class="text-sm font-medium text-gray-500 dark:text-gray-400 uppercase mb-2">{{ __('Member Information') }}</h4>
                    <p class="mb-1"><strong class="font-medium">{{ __('Name:') }}</strong> {{ $reservation->user->name }}</p>
@@ -170,8 +162,7 @@
                        </span>
                    </p>
                    @if($reservation->book_copy_id)
-                       <p class="mb-1"><strong class="font-medium">{{ __('Copy:') }}</strong> #{{ $reservation->book_copy_id }}</p>
-                   @endif
+<p class="mb-1"><strong class="font-medium">{{ __('Copy:') }}</strong> #{{ $reservation->book_copy_id }} , {{__('Copy Number')}} {{ $reservation->book_copy ? $reservation->book_copy->copy_number : 'N/A' }}</p>                   @endif
                    @if($reservation->ready_for_pickup_date)
                        <p class="mb-1"><strong class="font-medium">{{ __('Ready Date:') }}</strong> {{ $reservation->ready_for_pickup_date->format('Y-m-d H:i:s') }}</p>
                    @endif

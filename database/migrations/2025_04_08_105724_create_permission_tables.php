@@ -48,7 +48,7 @@ $table->unique(['name', 'guard_name'], 'permissions_name_guard_name_unique');
                 $table->unique([$columnNames['team_foreign_key'], 'name', 'guard_name']);
             } else {
               // To this:
-$table->unique(['name', 'guard_name'], 'permissions_name_guard_name_unique');
+$table->unique(['name', 'guard_name'], 'roles_name_guard_name_unique');
             }
         });
 

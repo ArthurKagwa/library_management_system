@@ -6,7 +6,7 @@
         <!-- Book Selection -->
         <div>
             @if($bookId)
-                <input type="hidden" wire:model="bookId">
+                <input type="hidden" wire:model="bookId" >
                 <div class="p-3 bg-green-100 rounded mb-4">
                     Selected Book: {{ $selectedBook->title }} by {{ $selectedBook->author }}
                 </div>
@@ -32,7 +32,7 @@
             <input type="hidden" wire:model="userId" value="{{ Auth::user()->id }}">
 
         @endif
-            <!-- Date Selection -->
+
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
                 <x-input-label for="reservation_date" :value="__('Reservation Date')" />

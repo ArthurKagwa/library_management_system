@@ -7,41 +7,54 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="text-primary dark:text-primary-dark bg-secondary dark:bg-secondary-dark" 
-      style="background-image: url('public\images\4907559.jpg'); 
+      style="background-image: url('/images/4907559.jpg'); 
              background-size: cover;
              background-position: center;
              background-repeat: no-repeat;
              background-attachment: fixed;">
 <nav>
     <div class="flex justify-between items-center p-4 bg-secondary dark:bg-secondary-dark">
-        <div class="text-xl font-bold text-primary dark:text-primary-dark">Library App</div>
-        <div class="space-x-4 text-xl font-bold text-primary dark:text-primary-dark">
-            @auth
-                @if(auth()->user()->hasVerifiedEmail())
-                    <a href="{{ route('dashboard') }}" class="hover:text-primary-dark">Dashboard</a>
-                @else
-                    <form method="POST" action="{{ route('verification.send') }}">
-                        @csrf
-                        <button type="submit" class="hover:text-primary-dark">Resend Verification</button>
-                    </form>
-                @endif
-                <form method="POST" action="{{ route('logout') }}">
+    <div class="text-xl font-bold text-primary dark:text-primary-dark">Library App</div>
+
+<div class="text-xl font-bold text-primary dark:text-primary-dark">
+    @auth
+        @if(auth()->user()->hasVerifiedEmail())
+            <div class="flex items-center space-x-4">
+                <a href="{{ route('dashboard') }}"
+                   class="px-4 py-2 bg-white text-pink-600 font-bold rounded hover:bg-pink-100 transition">
+                    Dashboard
+                </a>
+
+                <form method="POST" action="{{ route('logout') }}" class="inline">
                     @csrf
-                    <button type="submit" class="hover:text-primary-dark">Logout</button>
+                    <button type="submit"
+                            class="px-4 py-2 bg-white text-pink-600 font-bold rounded hover:bg-pink-100 transition">
+                        Logout
+                    </button>
                 </form>
-            @else
-                <a href="{{ route('register') }}" class="hover:text-primary-dark">Register</a>
-                <a href="{{ route('login') }}" class="hover:text-primary-dark">Login</a>
-            @endauth
+            </div>
+        @else
+            <form method="POST" action="{{ route('verification.send') }}">
+                @csrf
+                <button type="submit" class="hover:text-primary-dark">Resend Verification</button>
+            </form>
+        @endif
+    @else
+        <div class="flex space-x-4">
+            <a href="{{ route('register') }}" class="hover:text-primary-dark">Register</a>
+            <a href="{{ route('login') }}" class="hover:text-primary-dark">Login</a>
         </div>
+    @endauth
+</div>
+
     </div>
 </nav>
 <hr class="bg-primary-dark">
 <main>
     <div class="flex flex-col justify-center items-center h-screen text-center">
-        <h1 class="text-3xl font-bold text-primary dark:text-primary-dark mb-8">
-            Welcome to the Library App
-        </h1>
+    <h1 class="text-white mb-20" style="font-size: 5rem; font-weight: 900;">
+        Welcome to the Library App
+    </h1>
 
         @auth
             @unless(auth()->user()->hasVerifiedEmail())

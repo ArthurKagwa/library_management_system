@@ -1,12 +1,12 @@
 <?php
 
-use App\Models\Transaction;
-use App\Http\Controllers\{LibrarianController,
+use App\Http\Controllers\{BookController,
+    CheckoutController,
+    LibrarianController,
     ManagerController,
     MemberController,
     ProfileController,
-    ReservationController,
-    TransactionController};
+    ReservationController};
 use Illuminate\Support\Facades\Route;
 
 // Public routes
@@ -43,7 +43,19 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('reservations/{reservation}/edit', [ReservationController::class, 'edit'])->name('member.reservations.edit');
         //members reservation update
         Route::patch('reservations/{reservation}', [ReservationController::class, 'update'])->name('member.reservations.update');
+        //to my books
         Route::get('my-books', [MemberController::class, 'myBooks'])->name('member.my-books');
+        //to checkouts page
+        Route::get('checkouts', [MemberController::class, 'checkouts'])->name('member.checkouts');
+        //to view checkout page
+        Route::get('checkout/{checkoutId}', [CheckOutController::class, 'view'])->name('member.view-checkout');
+
+        //to explore page
+        Route::get('explore', [MemberController::class, 'explore'])->name('member.explore');
+        //to view book page
+        Route::get('books/{book}', [BookController::class, 'viewBook'])->name('view.book');
+
+
     });
 
     // Librarian routes
@@ -61,8 +73,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
         //update reservation
         Route::patch('update-reservation/{reservation}', [ReservationController::class, 'update'])->name('reservations.update');
         Route::get('library-books', [LibrarianController::class, 'libraryBooks'])->name('librarian.books.index');
-    Route::post('library-books', [LibrarianController::class, 'storeBook'])->name('librarian.books.store');
-    Route::delete('library-books/{book}', [LibrarianController::class, 'destroyBook'])->name('librarian.books.destroy');
+        Route::post('library-books', [LibrarianController::class, 'storeBook'])->name('librarian.books.store');
+        Route::delete('library-books/{book}', [LibrarianController::class, 'destroyBook'])->name('librarian.books.destroy');
+
+        //to checkout page
+        Route::get('checkout', [LibrarianController::class, 'checkoutPage'])->name('librarian.checkout');
+
+
     });
 
 
@@ -74,7 +91,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::post('/manager/users/{user}/upgrade', [ManagerController::class, 'upgradeToLibrarian'])->name('manager.users.upgrade');
         Route::get('staff', [ManagerController::class, 'staff'])->name('manager.staff');
         // Add other manager-specific routes here
-        Route::post('/manager/users/{user}/demote', [ManagerController::class, 'demote'])->name('manager.users.demote');
+        Route::post('users/{user}/demote', [ManagerController::class, 'demote'])->name('manager.users.demote');
+        //lending fees
+        Route::get('lending_fees',[ManagerController::class, 'lendingFees'])->name('manager.lending-fees');
+        Route::get('lending-fees/{fee}', [ManagerController::class, 'viewLendingFee'])->name('manager.lending-fees.view');
+        Route::get('lending-fees/{fee}/edit', [ManagerController::class, 'editLendingFee'])->name('manager.lending-fees.edit');
+        Route::put('manager/lending-fees/{fee}', [ManagerController::class, 'updateLendingFee'])->name('manager.lending-fees.update');
     });
 });
 

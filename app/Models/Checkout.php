@@ -6,18 +6,16 @@ use Illuminate\Database\Eloquent\Model;
 
 class Checkout extends Model
 {
+    //
     protected $fillable = [
-        'user_id',
         'book_copy_id',
-        'reservation_id',
-        'staff_id',
+        'user_id',
         'checkout_date',
         'due_date',
         'return_date',
         'checkout_condition',
-        'return_condition',
         'base_fee',
-        'renewal_count'
+        'reservation_id'
     ];
 
     protected $casts = [
@@ -31,9 +29,9 @@ class Checkout extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function bookCopy()
+    public function staff()
     {
-        return $this->belongsTo(BookCopy::class);
+        return $this->belongsTo(User::class, 'staff_id');
     }
 
     public function reservation()
@@ -41,8 +39,26 @@ class Checkout extends Model
         return $this->belongsTo(Reservation::class);
     }
 
-    public function staff()
+    public function book()
     {
-        return $this->belongsTo(User::class, 'staff_id');
+        return $this->hasOneThrough(Book::class, BookCopy::class, 'id', 'id', 'book_copy_id', 'book_id');
+    }
+
+    // In App\Models\Checkout.php
+    public function bookCopy()
+    {
+        return $this->belongsTo(BookCopy::class, 'book_copy_id');
+    }
+
+    // Checkout method
+    public function checkout($checkoutData)
+    {
+        $this->book_copy_id = $checkoutData['book_copy_id'];
+        $this->user_id = $checkoutData['user_id'];
+        $this->checkout_date = now();
+        $this->due_date = now()->addDays(14); // Example: 14 days from checkout
+        $this->checkout_condition = $checkoutData['checkout_condition'];
+        $this->base_fee = 2000; // Set base fee as needed
+        $this->save();
     }
 }
