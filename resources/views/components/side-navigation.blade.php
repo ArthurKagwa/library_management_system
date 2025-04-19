@@ -1,14 +1,24 @@
 <!-- resources/views/components/side-navigation.blade.php -->
+<style>
+/* Hide scrollbar but keep scrolling */
+.custom-scrollbar {
+    scrollbar-width: none; /* For Firefox */
+    -ms-overflow-style: none; /* For Internet Explorer and Edge */
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+    display: none; /* For Chrome, Safari, and Opera */
+}
+</style>
 <div x-data="{ open: false }" class="relative">
 
 
     <!-- Side navigation -->
-    <nav class="bg-white dark:bg-gray-800 border-r dark:border-secondary-dark shadow-sm
+   <nav class="bg-white dark:bg-gray-800 border-r dark:border-secondary-dark shadow-sm
             md:fixed md:h-full md:w-64
             absolute w-full z-40 transition-all duration-300 ease-in-out transform
-            overflow-y-auto"
-         :class="{'translate-x-0': open, '-translate-x-full md:translate-x-0': !open}">
-
+            overflow-y-auto custom-scrollbar"
+     :class="{'translate-x-0': open, '-translate-x-full md:translate-x-0': !open}">
         <div class="p-5">
             <div class="flex items-center justify-between md:justify-start text-primary dark:text-primary-dark ">
                 <div class="flex items-center">
@@ -34,6 +44,15 @@
                         <x-icon name="book" class="w-5 h-5 mr-3" />
                         <span>Dashboard</span>
                     </a>
+
+{{--                EXPLORE--}}
+                    <a href="{{ route('member.explore') }}"
+                       class="flex items-center px-4 py-2 mb-2 rounded-md {{ request()->routeIs('member.explore') ? 'bg-secondary-accent text-white' : 'text-primary bg-secondary dark:text-primary-dark  dark:bg-secondary-dark hover:bg-gray-100 dark:hover:bg-primary' }}">
+                        <x-icon name="book" class="w-5 h-5 mr-3" />
+                        <span>Explore Books</span>
+                    </a>
+
+
                      <a href="{{ route('member.my-books') }}"
                        class="flex items-center px-4 py-2 mb-2 rounded-md {{ request()->routeIs('member.my-books') ? 'bg-secondary-accent text-white' : 'text-primary bg-secondary dark:text-primary-dark  dark:bg-secondary-dark hover:bg-gray-100 dark:hover:bg-primary' }}">
                         <x-icon name="inbox" class="w-5 h-5 mr-3" />

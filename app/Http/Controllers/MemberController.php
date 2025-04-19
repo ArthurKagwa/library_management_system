@@ -1,12 +1,14 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Models\Book;
 use App\Models\Checkout;
 use App\Models\Transaction;
 use App\Models\Member;
 use App\Models\Reservation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Checkout;
 
 class MemberController extends Controller
 {
@@ -32,8 +34,6 @@ class MemberController extends Controller
 
             return view('member.my-books', compact('checkedOutBooks', 'reservations'));
     }
-
-
 
 
     public function reserveBookPage()
@@ -81,5 +81,13 @@ return view('member.checkouts', compact('checkouts'));
             ->orderBy('created_at', 'desc')
             ->get();
         return view('reservations.my-reservations', ['reservations' => $reservations, 'stats' => $stats]);
+    }
+
+
+
+    public function explore()
+    {
+        $books = Book::inRandomOrder()->limit(5)->get();
+        return view('member.explore', compact('books'));
     }
 }
