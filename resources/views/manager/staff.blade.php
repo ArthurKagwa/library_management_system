@@ -58,8 +58,16 @@
                             </tbody>
                         </table>
                     </div>
+                    <div class="mt-4">
+                        <div class="text-primary dark:text-primary-dark font-semibold">
+                            {{__('Search User to Upgrade to Librarian')}}
+                        </div>
+                        <div>
+                            @livewire('upgrade-user')
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</x-app-layout>
+    </x-app-layout>

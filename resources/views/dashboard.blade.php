@@ -1,42 +1,34 @@
 <x-app-layout>
     <x-slot name="header">
-    <div class="bg-pink-500 dark:bg-pink-600 px-4 py-3 rounded-md">
-
-        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('Member Dashboard') }}
-        </h2>
-    </div>
+        <div class="bg-pink-500 dark:bg-pink-600 px-4 py-3 rounded-md">
+            <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+                {{ __('Member Dashboard') }}
+            </h2>
+        </div>
     </x-slot>
 
-    <div class="flex-grow min-h-screen py-12 bg-gray-100 dark:bg-gray-900">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-6 flex flex-col gap-2 h-[3vh]">
+    <div class="min-h-screen bg-gray-100 dark:bg-gray-900 flex flex-col justify-start items-center pt-8 px-4">
+        <div class="w-full max-w-7xl space-y-4">
             {{-- Welcome Card --}}
-            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-2 text-secondary-dark dark:text-secondary">
+            <div class="bg-white dark:bg-gray-800 shadow-md sm:rounded-lg p-4">
+                <p class="text-gray-700 dark:text-gray-300">
                     {{ __("You're logged in!") }}
-                </div>
+                </p>
             </div>
 
             {{-- Two Side-by-Side Cards --}}
-            <div class="flex flex-col md:flex-row gap-3 flex-grow">
+            <div class="flex flex-col md:flex-row gap-4">
                 {{-- Image Carousel Card --}}
-                <div class="w-full md:w-1/2 bg-white dark:bg-gray-800 shadow-md rounded-lg overflow-hidden h-auto" style="min-height: 400px; height: 100%;">
-                    <div class="relative w-full h-full">
-                        <div class="absolute inset-0 w-full h-full animate-slide">
-                            <img src="/images/readingAbook.jpeg" alt="Book 1" class="w-full h-full object-cover">
-                        </div>
-                        <div class="absolute inset-0 w-full h-full animate-slide delay-3000">
-                            <img src="/images/library.jpeg" alt="Book 2" class="w-full h-full object-cover">
-                        </div>
-                        <div class="absolute inset-0 w-full h-full animate-slide delay-3000">
-                            <img src="/images/read.jpeg" alt="Book 2" class="w-full h-full object-cover">
-                        </div>
-                        
+                <div class="w-full md:w-1/2 bg-white dark:bg-gray-800 shadow-md rounded-lg overflow-hidden" style="height: 400px;">
+                    <div id="carousel" class="relative w-full h-full">
+                        <img src="/images/readingAbook.jpeg" class="carousel-image w-full h-full object-cover absolute inset-0 opacity-0 transition-opacity duration-1000" alt="Book 1">
+                        <img src="/images/library.jpeg" class="carousel-image w-full h-full object-cover absolute inset-0 opacity-0 transition-opacity duration-1000" alt="Book 2">
+                        <img src="/images/read.jpeg" class="carousel-image w-full h-full object-cover absolute inset-0 opacity-0 transition-opacity duration-1000" alt="Book 3">
                     </div>
                 </div>
 
                 {{-- Quote Card --}}
-                <div class="w-full md:w-1/2 bg-white dark:bg-gray-800 shadow-md rounded-lg p-6 flex flex-col justify-center h-auto" style="min-height: 400px; height: 100%;">
+                <div class="w-full md:w-1/2 bg-white dark:bg-gray-800 shadow-md rounded-lg p-6 flex flex-col justify-center" style="height: 400px;">
                     <h3 class="text-2xl font-semibold text-gray-900 dark:text-gray-100 mb-4">Quote of the Day</h3>
                     <p class="text-lg text-gray-700 dark:text-gray-300 italic">
                         "A reader lives a thousand lives before he dies . . . The man who never reads lives only one."
@@ -45,28 +37,35 @@
                 </div>
             </div>
         </div>
-</div>
+    </div>
 
-    {{-- Tailwind Custom Animation --}}
+    {{-- JS-Based Carousel --}}
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const images = document.querySelectorAll('.carousel-image');
+            let current = 0;
+            const intervalTime = 15000; // 15 seconds per image
+
+            function showImage(index) {
+                images.forEach((img, i) => {
+                    img.style.opacity = i === index ? '1' : '0';
+                });
+            }
+
+            function nextImage() {
+                current = (current + 1) % images.length;
+                showImage(current);
+            }
+
+            showImage(current); // show the first image
+            setInterval(nextImage, intervalTime);
+        });
+    </script>
+
+    {{-- Optional: Remove scroll --}}
     <style>
-        @keyframes slideFade {
-            0%, 100% { opacity: 0; }
-            10%, 90% { opacity: 1; }
-        }
-        .animate-slide {
-            animation: slideFade 9s infinite;
-            opacity: 0;
-        }
-        .animate-slide:first-child {
-            opacity: 3;
-        }
-        .delay-3000 {
-            animation-delay: 6s;
-        }
-        .delay-6000 {
-            animation-delay: 6s;
+        html, body {
+            overflow-y: hidden;
         }
     </style>
-    {{-- Footer --}}
-
 </x-app-layout>
