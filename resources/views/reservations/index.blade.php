@@ -6,13 +6,30 @@
 
     </x-slot>
     <div class="p-6">
+        <div class="flex justify-between items-center mb-4">
+            <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100">
+                {{ __('Statistics') }}
+            </h3>
+        </div>
 
-        <livewire:stats :stats="$stats" />
+        <livewire:resrvation-stata :stats="$stats" />
 
     </div>
     <div class="p-6">
 {{--        show reservations in table with actions--}}
-        <div class="bg-white dark:bg-gray-800 shadow-sm sm:rounded-lg overflow-hidden">
+        <div class="flex justify-between items-center mb-4">
+            <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100">
+                {{ __('Reservations') }}
+            </h3>
+            @if(Auth::user()->hasRole('librarian'))
+                <a href="{{ route('librarian.books.reserve') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                    {{ __('Create Reservation') }}
+                </a>
+            @endif
+        </div>
+
+    </div>
+        <div class="bg-white  p-6  dark:bg-gray-800 shadow-sm sm:rounded-lg overflow-hidden">
             <div class="overflow-x-auto">
                 <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
                     <thead class="bg-gray-50 dark:bg-gray-700">
@@ -74,7 +91,10 @@
                 </table>
             </div>
         </div>
-    </div>
+        <div class="mt-4">
+            {{ $reservations->links() }}
+        </div>
 </x-app-layout>
+
 
 

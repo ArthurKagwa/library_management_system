@@ -19,8 +19,7 @@ class ReservationController extends Controller
         $stats = Reservation::getStats();
 
         // Fetch all reservations
-        $reservations = Reservation::with(['user', 'book'])->get();
-
+    $reservations = Reservation::with(['user', 'book'])->paginate(20);
         return view('reservations.index', compact('reservations', 'stats'));
     }
 
@@ -32,27 +31,7 @@ class ReservationController extends Controller
         return view('reservations.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-//    public function store(Request $request){
-//        // Validate and store the reservation
-//       $request->validate([
-//           'user_id' => 'required|exists:users,id',
-//           'book_id' => 'required|exists:books,id',
-//           'staff_id' => 'exists:users,id',
-//           'reservation_date' => 'required|date|after:now',
-//       ]);
-//        // Check if the book is available for reservation
-//
-//        if(!Book::available($request->book_id)){
-//            return redirect()->back()->with('error', 'Book is not available for reservation.');
-//        }
-//
-//        Reservation::create($request->all());
-//
-//        return redirect()->route('reservations.index')->with('success', 'Reservation created successfully.');
-//    }
+
 
     /**
      * edit reservation
