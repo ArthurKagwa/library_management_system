@@ -38,7 +38,7 @@ class ManagerController extends Controller
 
     }
 
-    public function upgradeToLibrarian(Request $request, User $user)
+    public static function upgradeToLibrarian( User $user)
     {
         // Verify current user is a manager
         if (!auth()->user()->hasRole('manager')) {
