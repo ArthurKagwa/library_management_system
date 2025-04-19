@@ -6,6 +6,7 @@ use App\Models\Member;
 use App\Models\Reservation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Checkout;
 
 class MemberController extends Controller
 {
@@ -20,19 +21,17 @@ class MemberController extends Controller
     {
         // Get all books currently checked out by the member
         $checkedOutBooks = Checkout::with(['bookCopy.book'])
-    ->where('user_id', Auth::id())
-    ->where('transaction_type', 'checkout')
-    ->whereNull('return_date')
-    ->get();
-
-// Get all reservations
-$reservations = Reservation::with('book')
-    ->where('user_id', Auth::id())
-    ->get();
-
-return view('member.my-books', compact('checkedOutBooks', 'reservations'));
+            ->where('user_id', Auth::id())
+            ->whereNull('return_date')
+            ->get();
+    
+        // Get all reservations
+        $reservations = Reservation::with('book')
+            ->where('user_id', Auth::id())
+            ->get();
+    
+        return view('member.my-books', compact('checkedOutBooks', 'reservations'));
     }
-
     /**
      * Show the form for creating a new resource.
      */
