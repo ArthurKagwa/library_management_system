@@ -62,8 +62,7 @@ class ManagerController extends Controller
     public function staff()
     {
         // Get all users with their roles
-        $users = User::with('roles')->get();
-
+$users = User::role('librarian')->with('roles')->get();
         return view('manager.staff', compact('users'));
     }
 
