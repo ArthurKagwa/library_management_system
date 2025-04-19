@@ -67,7 +67,7 @@ class ReservationController extends Controller
     /**
      * update reservation
      */
-public function update(Request $request, Reservation $reservation){
+    public function update(Request $request, Reservation $reservation){
         try {
             // Validate the request data
 
@@ -142,6 +142,30 @@ public function update(Request $request, Reservation $reservation){
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'An error occurred while updating the reservation: ' . $e->getMessage())->withInput();
         }
+    }
+
+    public  function reserveBook($bookId)
+    {
+        // Check if the book is available
+        $book = Book::find($bookId);
+        if (!$book) {
+            return redirect()->back()->with('error', 'Book not found.');
+        }
+
+        // Check if the book is available for reservation
+        if (!Book::available($bookId)) {
+            return redirect()->back()->with('error', 'Book is not available for reservation.');
+        }
+
+        // Create a new reservation
+        $reservation = Reservation::create([
+            'user_id' => Auth::id(),
+            'book_id' => $bookId,
+            'reservation_date' => now(),
+            'status' => 'pending',
+        ]);
+
+        return redirect()->route('member.my-reservations')->with('success', 'Reservation created successfully.');
     }
 
 }
