@@ -37,6 +37,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::prefix('member')->middleware('role:member')->group(function () {
         Route::get('dashboard', [MemberController::class, 'index'])->name('member.dashboard');
         Route::get('reserve-book', [MemberController::class, 'reserveBookPage'])->name('member.books.reserve');
+        Route::get('reserve-book/{book}', [ReservationController::class, 'reserveBook'])->name('member.reserve');
+
         //view reservations
         Route::get('reservations', [MemberController::class, 'myReservations'])->name('member.my-reservations');
         //show reservation update page
