@@ -51,7 +51,7 @@ class BookDescription extends Component
                     ],
                 ],
                 'max_tokens' => 150,
-                'temperature' => 0.7,
+                'temperature' => 0.4,
             ]);
 
             $responseData = $response->json();
