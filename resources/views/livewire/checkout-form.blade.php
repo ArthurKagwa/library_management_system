@@ -6,12 +6,15 @@
         <livewire:search-reservations />
     </div>
 
-    @if ($selectedReservation)
+    @if ($selectedReservation && $selectedReservation->status == 'ready_for_pickup')
         <div class="mb-6 p-4 bg-blue-50 dark:bg-blue-900/30 rounded-lg text-primary dark:text-primary-dark">
             <h4 class="font-medium">Selected Reservation</h4>
             <p class="test:sm">Member: {{ $selectedReservation->user->name }}</p>
             <p class="test:sm">Book: {{ $selectedReservation->book->title }}</p>
-            <p class="test:sm">Status: <span class="capitalize">{{ str_replace('_', ' ', $selectedReservation->status) }}</span></p>
+            <p class="test:sm">Reservation Date: {{ $selectedReservation->created_at->format('Y-m-d') }}</p>
+{{--            <p class="test:sm">Due Date: {{ $selectedReservation->due_date->format('Y-m-d') }}</p>--}}
+           <p class="text-sm">{{ __('Book Copy ID: ') . optional($selectedReservation->bookCopy)->id }}</p>
+            <p class="test-sm">Status: <span class="capitalize">{{ str_replace('_', ' ', $selectedReservation->status) }}</span></p>
         </div>
     @else
         <div class="mb-6 p-4 bg-gray-100 dark:bg-gray-700 rounded-lg">

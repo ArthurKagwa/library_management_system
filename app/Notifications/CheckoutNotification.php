@@ -31,6 +31,9 @@ class CheckoutNotification extends Notification
             ->line('Your checkout for the book "' . $this->checkout->book->title . '" has been successfully processed.')
             ->line('Due Date: ' . $this->checkout->due_date)
             ->action('View Details', url('/member/checkout/' . $this->checkout->id))
+            //current condition and fee
+            ->line('Current Condition: ' . $this->checkout->bookCopy->condition)
+            ->line('Fee: ' . $this->checkout->base_fee)
             ->line('Thank you for using our library!');
     }
 }
