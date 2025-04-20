@@ -4,9 +4,7 @@
         @if($selectedBook)
 {{--            links to borrow or view book--}}
             <div class="flex justify-between items-center">
-                <h2 class="text-lg font-semibold text-gray-800 dark:text-gray-200">
-                    {{ $selectedBook->title }}
-                </h2>
+           
                 <div>
                     <a href="{{ route('view.book', $selectedBook->id) }}" class="text-blue-500 hover:underline">View Book</a>
                     @if($selectedBook->available($selectedBook->id))
