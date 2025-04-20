@@ -24,7 +24,7 @@ class ReservationSeeder extends Seeder
         $reservationData = [];
 
         // Create some pending reservations
-        for ($i = 0; $i < 8; $i++) {
+        for ($i = 0; $i < 3; $i++) {
             $reservationDate = Carbon::now()->subDays(rand(1, 5));
 
             $reservation = [
@@ -45,7 +45,7 @@ class ReservationSeeder extends Seeder
         }
 
         // Create some ready for pickup reservations
-        for ($i = 0; $i < 5; $i++) {
+        for ($i = 0; $i < 2; $i++) {
             $reservationDate = Carbon::now()->subDays(rand(5, 10));
             $readyDate = Carbon::now()->subDays(rand(1, 3));
 
@@ -67,7 +67,7 @@ class ReservationSeeder extends Seeder
         }
 
         // Create some picked up reservations
-        for ($i = 0; $i < 10; $i++) {
+        for ($i = 0; $i < 1; $i++) {
             $reservationDate = Carbon::now()->subDays(rand(10, 20));
             $readyDate = $reservationDate->copy()->addDays(rand(1, 3));
             $pickupDate = $readyDate->copy()->addDays(rand(0, 2));
@@ -90,7 +90,7 @@ class ReservationSeeder extends Seeder
         }
 
         // Create some expired reservations
-        for ($i = 0; $i < 3; $i++) {
+        for ($i = 0; $i < 1; $i++) {
             $reservationDate = Carbon::now()->subDays(rand(15, 30));
             $readyDate = $reservationDate->copy()->addDays(rand(1, 3));
             $pickupDeadline = $readyDate->copy()->addDays(3);
