@@ -14,8 +14,11 @@ Route::get('/', function () {
     return view('welcome');
 })->name('welcome');
 
+
+
+
 // Authentication-protected routes
-Route::middleware(['auth', 'verified'])->group(function () {
+Route::middleware(['auth'])->group(function () {
     // Profile routes (accessible to all authenticated users)
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -43,7 +46,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('reservations', [MemberController::class, 'myReservations'])->name('member.my-reservations');
         //show reservation update page
         Route::get('reservations/{reservation}/edit', [ReservationController::class, 'edit'])->name('member.reservations.edit');
-        //members reservation update
+        
+        Route::prefix('member')->middleware('role:member')->group(function () {
+            Route::get('reservations/{reservation}/pickup', [ReservationController::class, 'pickup'])->name('member.pickup');
+            Route::get('reservations/{reservation}/cancel', [ReservationController::class, 'cancel'])->name('member.cancel');
+        });
+         //members reservation update
         Route::patch('reservations/{reservation}', [ReservationController::class, 'update'])->name('member.reservations.update');
         //to my books
         Route::get('my-books', [MemberController::class, 'myBooks'])->name('member.my-books');
