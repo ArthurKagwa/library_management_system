@@ -186,7 +186,7 @@ public function pickup(Reservation $reservation)
 
     return redirect()->route('member.my-reservations')->with('success', 'Book picked up successfully.');
 }
-<?php
+
 public function cancel(Reservation $reservation)
 {
     if ($reservation->status === 'pending') {
