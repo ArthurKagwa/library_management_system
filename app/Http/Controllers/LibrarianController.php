@@ -99,59 +99,8 @@ public function destroyBook(Book $book)
         ->with('success', 'Book and all copies deleted successfully');
 }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Librarian $librarian)
-    {
-        //
-    }
 
 
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Librarian $librarian)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Librarian $librarian)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Librarian $librarian)
-    {
-        //
-    }
-
-    /**
-     * Route to books management page
-     */
     public function books(){
         $books = Book::all();
         return view('librarian.books', [

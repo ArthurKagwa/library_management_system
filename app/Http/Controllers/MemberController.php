@@ -34,23 +34,18 @@ class MemberController extends Controller
 
             return view('member.my-books', compact('checkedOutBooks', 'reservations'));
     }
-    public function explore(Request $request)
+    public function explore()
 {
-    $query = Book::query();
-    
-    // Apply title search filter
-    if ($request->has('search') && !empty($request->search)) {
-        $query->where('title', 'like', '%' . $request->search . '%');
-    }
-    
-    // Apply rating filter
-    if ($request->has('rating') && !empty($request->rating)) {
-        $query->where('average_rating', '>=', $request->rating);
-    }
-    
-    // Get books with pagination
-    $books = $query->paginate(12);
-    
+//    get 5 random books
+    $books = Book::with('copies')
+        ->whereHas('copies', function ($query) {
+            $query->where('status', 'available');
+        })
+        ->inRandomOrder()
+        ->limit(5)
+        ->get();
+
+
     return view('member.explore', compact('books'));
 }
 
