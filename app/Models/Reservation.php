@@ -137,16 +137,12 @@ public static function memberReservationStats(int|string|null $id)
     {
         return $this->belongsTo(Book::class);
     }
-
     public function bookCopy()
     {
         return $this->belongsTo(BookCopy::class);
     }
-
     public function staff()
     {
         return $this->belongsTo(User::class, 'staff_id');
     }
-
-
 }
