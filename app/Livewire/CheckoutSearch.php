@@ -44,7 +44,7 @@ class CheckoutSearch extends Component
         $this->selectedCheckout = Checkout::find($checkoutId);
         $this->search = $this->selectedCheckout->title ?? ' ';
         $this->results = [];
-        $this->dispatch('checkoutSelected', bookId: $checkoutId);
+        $this->dispatch('checkoutSelected', checkoutId: $checkoutId);
 
     }
 

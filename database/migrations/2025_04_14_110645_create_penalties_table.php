@@ -13,6 +13,10 @@ return new class extends Migration
     {
         Schema::create('penalties', function (Blueprint $table) {
             $table->id();
+            $table->string('type'); // 'overdue', 'damage', etc.
+            $table->string('description');
+            $table->decimal('base_amount', 8, 2);
+            $table->boolean('is_daily_rate')->default(false); // For overdue penalties
             $table->timestamps();
         });
     }
