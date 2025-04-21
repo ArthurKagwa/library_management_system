@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\{BookController,
+    CheckinController,
     CheckoutController,
     LibrarianController,
     ManagerController,
@@ -46,7 +47,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('reservations', [MemberController::class, 'myReservations'])->name('member.my-reservations');
         //show reservation update page
         Route::get('reservations/{reservation}/edit', [ReservationController::class, 'edit'])->name('member.reservations.edit');
-        
+
         Route::prefix('member')->middleware('role:member')->group(function () {
             Route::get('reservations/{reservation}/pickup', [ReservationController::class, 'pickup'])->name('member.pickup');
             Route::get('reservations/{reservation}/cancel', [ReservationController::class, 'cancel'])->name('member.cancel');
@@ -90,6 +91,8 @@ Route::middleware(['auth'])->group(function () {
 
         //to checkout page
         Route::get('checkout', [LibrarianController::class, 'checkoutPage'])->name('librarian.checkout');
+        //checkin
+        Route::get('checkin', [CheckinController::class, 'checkinPage'])->name('librarian.checkin');
 
 
     });
