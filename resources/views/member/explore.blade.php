@@ -15,6 +15,9 @@
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 @forelse($books as $book)
                     <a href="{{route('view.book', $book->id)}}">
+                    @if($book->image)
+    <img src="{{ asset('storage/' . $book->image) }}" alt="{{ $book->title }}" class="w-full h-48 object-cover rounded-md mb-2">
+@endif
                         <div class="p-4 border rounded shadow-sm bg-white dark:bg-gray-800 hover:shadow-md transition-shadow">
                             <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-2">
                                 {{ $book->title }}

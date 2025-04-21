@@ -43,6 +43,10 @@
                             <div class="mt-4">
                                 <x-primary-button>{{ __('Add Book') }}</x-primary-button>
                             </div>
+                           <div>
+    <x-input-label for="image" :value="__('Book Image')" />
+    <input id="image" name="image" type="file" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" accept="image/*" />
+</div> 
                         </form>
                     </div>
 

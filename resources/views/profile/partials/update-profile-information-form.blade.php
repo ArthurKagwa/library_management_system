@@ -22,6 +22,18 @@
             <x-text-input id="name" name="name" type="text" class="mt-1 block w-full" :value="old('name', $user->name)" required autofocus autocomplete="name" />
             <x-input-error class="mt-2" :messages="$errors->get('name')" />
         </div>
+        <!-- filepath: c:\Users\DELL\Desktop\library_management_system\resources\views\profile\partials\update-profile-information-form.blade.php -->
+<div>
+    <x-input-label for="profile_image" :value="__('Profile Image')" />
+    <input id="profile_image" name="profile_image" type="file" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" accept="image/*" />
+    <x-input-error class="mt-2" :messages="$errors->get('profile_image')" />
+</div>
+
+@if ($user->profile_image)
+    <div class="mt-4">
+        <img src="{{ asset('storage/' . $user->profile_image) }}" alt="Profile Image" class="w-20 h-20 rounded-full">
+    </div>
+@endif
 
         <div>
             <x-input-label for="email" :value="__('Email')" />

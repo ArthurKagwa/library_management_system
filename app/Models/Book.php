@@ -15,6 +15,7 @@ class Book extends Model
         'isbn',
         'description',
         'published_date',
+        'image',
     ];
 
     public function copies()
