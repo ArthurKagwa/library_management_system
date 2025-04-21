@@ -12,7 +12,8 @@
                     <!-- Add New Book Form -->
                     <div class="mb-8">
                         <h3 class="text-lg font-medium mb-4">{{ __('Add New Book') }}</h3>
-                        <form action="{{ route('librarian.books.store') }}" method="POST">
+                        <form action="{{ route('librarian.books.store') }}" method="POST"enctype="multipart/form-data"
+                        >
                             @csrf
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <div>
@@ -40,13 +41,14 @@
                                     <x-text-input id="published_date" name="published_date" type="date" class="mt-1 block w-full" />
                                 </div>
                             </div>
-                            <div class="mt-4">
-                                <x-primary-button>{{ __('Add Book') }}</x-primary-button>
-                            </div>
-                           <div>
+                              <div>
     <x-input-label for="image" :value="__('Book Image')" />
     <input id="image" name="image" type="file" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" accept="image/*" />
 </div> 
+                            <div class="mt-4">
+                                <x-primary-button>{{ __('Add Book') }}</x-primary-button>
+                            </div>
+                         
                         </form>
                     </div>
 

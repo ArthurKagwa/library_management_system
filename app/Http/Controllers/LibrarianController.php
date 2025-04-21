@@ -51,7 +51,7 @@ class LibrarianController extends Controller
     return view('librarian.library-books', compact('books'));
 }
 
-<?php
+
 public function storeBook(Request $request)
 {
     $validated = $request->validate([

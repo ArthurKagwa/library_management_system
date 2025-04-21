@@ -7,7 +7,7 @@ use App\Http\Controllers\{BookController,
     ManagerController,
     MemberController,
     ProfileController,
-    ReservationController};
+    ReservationController,DashboardController,StatisticsController};
 use Illuminate\Support\Facades\Route;
 
 // Public routes
@@ -39,6 +39,8 @@ Route::middleware(['auth'])->group(function () {
 
     // Member routes
     Route::prefix('member')->middleware('role:member')->group(function () {
+        
+Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
         Route::get('dashboard', [MemberController::class, 'index'])->name('member.dashboard');
         Route::get('reserve-book', [MemberController::class, 'reserveBookPage'])->name('member.books.reserve');
         Route::get('reserve-book/{book}', [ReservationController::class, 'reserveBook'])->name('member.reserve');
@@ -73,6 +75,10 @@ Route::middleware(['auth'])->group(function () {
 
     // Librarian routes
     Route::prefix('librarian')->middleware('role:librarian')->group(function () {
+
+
+Route::get('/dashboard', [StatisticsController::class, 'index'])->name('dashboard');
+Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
         Route::get('dashboard', [LibrarianController::class, 'index'])->name('librarian.dashboard');
         Route::get('books', [LibrarianController::class, 'books'])->name('librarian.books');
         Route::post('delete-book', [LibrarianController::class, 'deleteBook'])->name('librarian.books.delete');
@@ -100,6 +106,8 @@ Route::middleware(['auth'])->group(function () {
 
     // Manager routes
     Route::prefix('manager')->middleware('role:manager')->group(function () {
+        
+Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
         Route::get('dashboard', [ManagerController::class, 'index'])->name('manager.dashboard');
         Route::get('staff', [ManagerController::class, 'staff'])->name('manager.staff');
         // Add other manager-specific routes here
