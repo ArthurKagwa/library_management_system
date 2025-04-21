@@ -62,7 +62,6 @@
         {
             $this->selectedReservation = null;
             $this->checkoutDate = now()->format('Y-m-d');
-            $this->dueDate = now()->addDays(14)->format('Y-m-d');
             $this->staff_id = Auth::id();
             $this->duration = 0; // Default duration
 

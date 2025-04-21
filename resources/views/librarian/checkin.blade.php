@@ -5,6 +5,6 @@
         </h2>
     </x-slot>
 
-
+    @livewire('checkin-form')
 
 </x-app-layout>

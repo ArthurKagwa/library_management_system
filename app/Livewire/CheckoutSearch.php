@@ -26,14 +26,14 @@ class CheckoutSearch extends Component
         Log::info('Search updated', ['term' => $this->search]);
 
         if (strlen($this->search) > 0) {
-            //search checkoouts by usename and email
             $this->results = Checkout::whereHas('user', function ($query) {
                 $query->where('name', 'like', '%' . $this->search . '%')
                     ->orWhere('email', 'like', '%' . $this->search . '%');
             })->orWhereHas('book', function ($query) {
-                    $query->where('title', 'like', '%' . $this->search . '%');
-                })
-                ->take(5)
+                $query->where('title', 'like', '%' . $this->search . '%');
+            })
+                ->orderByRaw('return_date IS NOT NULL') // Prioritize null return_date
+                ->orderBy('checkout_date', 'asc') // Order by the oldest checkout_date
                 ->get();
         } else {
             $this->results = [];

@@ -22,13 +22,30 @@
                             class="px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 "
                         >
                             <div class="font-medium text-gray-900 dark:text-gray-100">{{ $checkout->user->name }}</div>
-                            <div class="text-sm text-gray-500 dark:text-gray-400">{{__('Checkout Date: '). $checkout->checkout_date->format('Y-m-d') }}</div>
-                            <div class="text-sm text-gray-500 dark:text-gray-400">{{__('Book: '). $checkout->book->title }}</div>
+                            <div class="text-sm text-gray-500 dark:text-gray-400">{{ __('Checkout Date: ') . $checkout->checkout_date->format('Y-m-d') }}</div>
+                            <div class="text-sm text-gray-500 dark:text-gray-400">{{ __('Book: ') . $checkout->book->title }}</div>
                             <div class="text-sm text-gray-500 dark:text-gray-400">
-                                {{ __('Status: ') . ($checkout->return_date ? 'Returned' : 'Checked Out') }}
+                               <div class="text-sm font-bold px-2 py-1 rounded
+                                    @if(is_null($checkout->return_date))
+                                        @if($checkout->due_date < now())
+                                            text-orange-500 bg-orange-50
+                                        @else
+                                            text-red-500 bg-red-50
+                                        @endif
+                                    @else
+                                        text-green-500 bg-green-50
+                                    @endif">
+                                    @if(is_null($checkout->return_date))
+                                        @if($checkout->due_date < now())
+                                            {{ __('Status: Overdue') }}
+                                        @else
+                                            {{ __('Status: Checked Out') }}
+                                        @endif
+                                    @else
+                                        {{ __('Status: Returned') }}
+                                    @endif
+                                </div>
                             </div>
-
-
                         </div>
                     @endforeach
                 </ul>

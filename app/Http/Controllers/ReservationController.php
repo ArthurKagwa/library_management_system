@@ -150,7 +150,7 @@ class ReservationController extends Controller
             'status' => 'pending',
         ]);
 
-        return redirect()->route('member.my-reservations')->with('success', 'Reservation created successfully. The book is ready for pickup.');
+        return redirect()->route('member.my-reservations')->with('success', 'Reservation created successfully.');
     }
 
 public function pickup(Reservation $reservation)
