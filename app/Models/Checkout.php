@@ -50,15 +50,24 @@ class Checkout extends Model
         return $this->belongsTo(BookCopy::class, 'book_copy_id');
     }
 
-    // Checkout method
-    public function checkout($checkoutData)
+    // calclate fine
+    public function calculateFine($returnCondition)
     {
-        $this->book_copy_id = $checkoutData['book_copy_id'];
-        $this->user_id = $checkoutData['user_id'];
-        $this->checkout_date = now();
-        $this->due_date = now()->addDays(14); // Example: 14 days from checkout
-        $this->checkout_condition = $checkoutData['checkout_condition'];
-        $this->base_fee = 2000; // Set base fee as needed
-        $this->save();
+        $conditions = ['new', 'good', 'fair', 'poor', 'damaged'];
+        $checkoutIndex = array_search($this->checkout_condition, $conditions);
+        $returnIndex = array_search($returnCondition, $conditions);
+
+        if ($returnIndex === false || $checkoutIndex === false) {
+            return 0; // Invalid condition, no fine
+        }
+
+        $levelsBelow = $returnIndex - $checkoutIndex;
+
+        if ($levelsBelow > 0) {
+           $finePerLevel = Penalty::where('type', 'fine_per_damage_level')->value('base_amount');
+            return $levelsBelow * $finePerLevel;
+        }
+
+        return 0; // No fine if the condition is the same or better
     }
 }
