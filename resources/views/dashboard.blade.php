@@ -1,6 +1,6 @@
 <x-app-layout>
     <x-slot name="header">
-        <div class="bg-blue-500 dark:bg-blue-600 px-4 py-3 rounded-md">
+        <div class="bg-gradient-to-r from-blue-500 via-pink-400 to-purple-500 dark:from-gray-800 dark:via-gray-700 dark:to-gray-600 px-4 py-3 rounded-md">
             <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
                 {{ __('Member Dashboard') }}
             </h2>
@@ -38,13 +38,13 @@
                 <div class="w-full md:w-1/2 bg-white dark:bg-gray-800 shadow-md rounded-lg p-6 flex flex-col justify-center" style="height: 400px;">
                     <h3 class="text-2xl font-semibold text-gray-900 dark:text-gray-100 mb-4">Quick Actions</h3>
                     <div class="space-y-4">
-                        <a href="{{ route('member.explore') }}" class="block bg-gradient-to-r from-blue-500 via-green-400 to-gray-500 text-white text-center py-2 rounded-md hover:from-blue-600 hover:via-green-500 hover:to-gray-600 transition duration-300 ease-in-out">
+                        <a href="{{ route('member.explore') }}" class="block bg-gradient-to-r from-blue-500 via-pink-400 to-gray-500 text-white text-center py-2 rounded-md hover:from-blue-600 hover:via-pink-500 hover:to-gray-600 transition duration-300 ease-in-out">
                             View All Books
                         </a>
-                        <a href="{{ route('profile.edit') }}" class="block bg-gradient-to-r from-green-500 via-blue-400 to-gray-500 text-white text-center py-2 rounded-md hover:from-green-600 hover:via-blue-500 hover:to-gray-600 transition duration-300 ease-in-out">
+                        <a href="{{ route('profile.edit') }}" class="block bg-gradient-to-r from-pink-500 via-blue-400 to-gray-500 text-white text-center py-2 rounded-md hover:from-pink-600 hover:via-blue-500 hover:to-gray-600 transition duration-300 ease-in-out">
                             Edit Profile
                         </a>
-                        <a href="{{ route('member.books.reserve') }}" class="block bg-gradient-to-r from-gray-500 via-blue-400 to-green-500 text-white text-center py-2 rounded-md hover:from-gray-600 hover:via-blue-500 hover:to-green-600 transition duration-300 ease-in-out">
+                        <a href="{{ route('member.books.reserve') }}" class="block bg-gradient-to-r from-gray-500 via-pink-400 to-blue-500 text-white text-center py-2 rounded-md hover:from-gray-600 hover:via-pink-500 hover:to-blue-600 transition duration-300 ease-in-out">
                             Manage Reservations
                         </a>
                     </div>
@@ -59,7 +59,7 @@
                         <h4 class="text-lg font-semibold">Books</h4>
                         <p class="text-2xl font-bold">{{ $totalBooks ?? 0 }}</p>
                     </div>
-                    <div class="bg-green-600 text-white p-4 rounded-lg shadow-md">
+                    <div class="bg-pink-600 text-white p-4 rounded-lg shadow-md">
                         <h4 class="text-lg font-semibold">Members</h4>
                         <p class="text-2xl font-bold">{{ $totalMembers ?? 0 }}</p>
                     </div>
