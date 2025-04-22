@@ -44,33 +44,29 @@
 
                     <a href="{{ route('member.explore') }}"
                        class="flex items-center px-4 py-2 mb-2 rounded-md {{ request()->routeIs('member.explore') ? 'bg-secondary-accent text-white' : 'text-primary bg-secondary dark:text-primary-dark dark:bg-secondary-dark hover:bg-gray-100 dark:hover:bg-primary' }}">
-                        <x-icon name="book" class="w-5 h-5 mr-3" />
+                        <x-icon name="search" class="w-5 h-5 mr-3" />
                         <span>Explore Books</span>
-                    </a>
-
-                    <a href="{{ route('member.my-books') }}"
-                       class="flex items-center px-4 py-2 mb-2 rounded-md {{ request()->routeIs('member.my-books') ? 'bg-secondary-accent text-white' : 'text-primary bg-secondary dark:text-primary-dark dark:bg-secondary-dark hover:bg-gray-100 dark:hover:bg-primary' }}">
-                        <x-icon name="inbox" class="w-5 h-5 mr-3" />
-                        <span>My Books</span>
                     </a>
 
                     <a href="{{ route('member.books.reserve') }}"
                        class="flex items-center px-4 py-2 mb-2 rounded-md {{ request()->routeIs('member.books.reserve') ? 'bg-secondary-accent text-white' : 'text-primary bg-secondary dark:text-primary-dark dark:bg-secondary-dark hover:bg-gray-100 dark:hover:bg-primary' }}">
-                        <x-icon name="inbox" class="w-5 h-5 mr-3" />
+                        <x-icon name="bookmark" class="w-5 h-5 mr-3" />
                         <span>Reserve Book</span>
                     </a>
 
                     <a href="{{ route('member.my-reservations') }}"
                        class="flex items-center px-4 py-2 mb-2 rounded-md {{ request()->routeIs('member.my-reservations') ? 'bg-secondary-accent text-white' : 'text-primary bg-secondary dark:text-primary-dark dark:bg-secondary-dark hover:bg-gray-100 dark:hover:bg-primary' }}">
                         <x-icon name="clock" class="w-5 h-5 mr-3" />
-                        <span>My Reservations</span>
+                        <span>View Reservations</span>
                     </a>
 
                     <a href="{{ route('member.checkouts') }}"
                        class="flex items-center px-4 py-2 mb-2 rounded-md {{ request()->routeIs('member.checkouts') ? 'bg-secondary-accent text-white' : 'text-primary bg-secondary dark:text-primary-dark dark:bg-secondary-dark hover:bg-gray-100 dark:hover:bg-primary' }}">
-                        <x-icon name="clock" class="w-5 h-5 mr-3" />
+                        <x-icon name="shopping-cart" class="w-5 h-5 mr-3" />
                         <span>My Checkouts</span>
                     </a>
+
+                   
                 @endif
 
                 <!-- Librarian links -->
@@ -87,14 +83,32 @@
 
                     <a href="{{ route('librarian.books.index') }}"
                        class="flex items-center px-4 py-2 mb-2 rounded-md {{ request()->routeIs('librarian.books.index') ? 'bg-secondary-accent text-white' : 'text-primary bg-secondary dark:text-primary-dark dark:bg-secondary-dark hover:bg-gray-100 dark:hover:bg-primary' }}">
-                        <x-icon name="book" class="w-5 h-5 mr-3" />
+                        <x-icon name="plus-circle" class="w-5 h-5 mr-3" />
                         <span>Add Books</span>
                     </a>
 
-                    <a href="{{ route('librarian.books') }}"
-                       class="flex items-center px-4 py-2 mb-2 rounded-md {{ request()->routeIs('librarian.books') ? 'bg-secondary-accent text-white' : 'text-primary bg-secondary dark:text-primary-dark dark:bg-secondary-dark hover:bg-gray-100 dark:hover:bg-primary' }}">
-                        <x-icon name="book" class="w-5 h-5 mr-3" />
-                        <span>Manage Books</span>
+                    <a href="{{ route('librarian.checkout') }}"
+                       class="flex items-center px-4 py-2 mb-2 rounded-md {{ request()->routeIs('librarian.checkout') ? 'bg-secondary-accent text-white' : 'text-primary bg-secondary dark:text-primary-dark dark:bg-secondary-dark hover:bg-gray-100 dark:hover:bg-primary' }}">
+                        <x-icon name="shopping-cart" class="w-5 h-5 mr-3" />
+                        <span>Checkout</span>
+                    </a>
+
+                    <a href="{{ route('librarian.checkin') }}"
+                       class="flex items-center px-4 py-2 mb-2 rounded-md {{ request()->routeIs('librarian.checkin') ? 'bg-secondary-accent text-white' : 'text-primary bg-secondary dark:text-primary-dark dark:bg-secondary-dark hover:bg-gray-100 dark:hover:bg-primary' }}">
+                        <x-icon name="check-circle" class="w-5 h-5 mr-3" />
+                        <span>Check In</span>
+                    </a>
+
+                    <a href="{{ route('librarian.books.reserve') }}"
+                       class="flex items-center px-4 py-2 mb-2 rounded-md {{ request()->routeIs('librarian.books.reserve') ? 'bg-secondary-accent text-white' : 'text-primary bg-secondary dark:text-primary-dark dark:bg-secondary-dark hover:bg-gray-100 dark:hover:bg-primary' }}">
+                        <x-icon name="bookmark" class="w-5 h-5 mr-3" />
+                        <span>Reserve Book</span>
+                    </a>
+
+                    <a href="{{ route('librarian.reservations.index') }}"
+                       class="flex items-center px-4 py-2 mb-2 rounded-md {{ request()->routeIs('librarian.reservations.index') ? 'bg-secondary-accent text-white' : 'text-primary bg-secondary dark:text-primary-dark dark:bg-secondary-dark hover:bg-gray-100 dark:hover:bg-primary' }}">
+                        <x-icon name="clock" class="w-5 h-5 mr-3" />
+                        <span>View Reservations</span>
                     </a>
                 @endif
 
@@ -108,6 +122,18 @@
                        class="flex items-center px-4 py-2 mb-2 rounded-md {{ request()->routeIs('manager.dashboard') ? 'bg-secondary-accent text-white' : 'text-primary bg-secondary dark:text-primary-dark dark:bg-secondary-dark hover:bg-gray-100 dark:hover:bg-primary' }}">
                         <x-icon name="check-circle" class="w-5 h-5 mr-3" />
                         <span>Dashboard</span>
+                    </a>
+
+                    <a href="{{ route('manager.staff') }}"
+                       class="flex items-center px-4 py-2 mb-2 rounded-md {{ request()->routeIs('manager.staff') ? 'bg-secondary-accent text-white' : 'text-primary bg-secondary dark:text-primary-dark dark:bg-secondary-dark hover:bg-gray-100 dark:hover:bg-primary' }}">
+                        <x-icon name="users" class="w-5 h-5 mr-3" />
+                        <span>Manage Staff</span>
+                    </a>
+
+                    <a href="{{ route('manager.lending-fees') }}"
+                       class="flex items-center px-4 py-2 mb-2 rounded-md {{ request()->routeIs('manager.lending-fees') ? 'bg-secondary-accent text-white' : 'text-primary bg-secondary dark:text-primary-dark dark:bg-secondary-dark hover:bg-gray-100 dark:hover:bg-primary' }}">
+                        <x-icon name="dollar-sign" class="w-5 h-5 mr-3" />
+                        <span>Lending Fees</span>
                     </a>
                 @endif
 
