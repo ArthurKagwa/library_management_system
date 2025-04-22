@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\LendingFee;
 use App\Models\Manager;
 use App\Models\User;
 use App\Notifications\UserDemotedNotification;
@@ -11,21 +12,11 @@ use Spatie\Permission\Models\Role;
 
 class ManagerController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
         return view('manager.dashboard');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
     public function demote (User $user)
     {
         if (!auth()->user()->hasRole('manager')) {
@@ -47,7 +38,7 @@ class ManagerController extends Controller
 
     }
 
-    public function upgradeToLibrarian(Request $request, User $user)
+    public static function upgradeToLibrarian( User $user)
     {
         // Verify current user is a manager
         if (!auth()->user()->hasRole('manager')) {
@@ -71,49 +62,45 @@ class ManagerController extends Controller
     public function staff()
     {
         // Get all users with their roles
-        $users = User::with('roles')->get();
-
+$users = User::role('librarian')->with('roles')->get();
         return view('manager.staff', compact('users'));
     }
 
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
+
+
+    public function lendingFees(){
+        //get all lending fees
+        $fees = LendingFee::orderBy('duration_days', 'desc')->get();
+        return view('manager.lending-fees', compact('fees'));
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Manager $manager)
+    public function viewLendingFee(LendingFee $fee)
     {
-        //
+        return view('manager.lending-fee-view', compact('fee'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Manager $manager)
+    public function editLendingFee(LendingFee $fee)
     {
-        //
+        return view('manager.lending-fee-edit', compact('fee'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Manager $manager)
+    public function updateLendingFee(Request $request, LendingFee $fee)
     {
-        //
+        // Validate the request
+        $request->validate([
+            'category' => 'required|string|max:255',
+            'duration_days' => 'required|integer|min:1',
+            'fee_amount' => 'required|numeric|min:0',
+            'effective_from' => 'required|date',
+            'effective_to' => 'nullable|date|after_or_equal:effective_from',
+        ]);
+
+        // Update the lending fee
+        $fee->update($request->all());
+
+        return redirect()->route('manager.lending-fees')
+            ->with('success', 'Lending fee updated successfully.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Manager $manager)
-    {
-        //
-    }
 }

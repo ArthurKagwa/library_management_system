@@ -5,9 +5,12 @@
         </h2>
     </x-slot>
 
-    <livewire:book-search />
 
     <div class="p-6 text-primary dark:text-primary-dark ">
+        <div class="mb-4">
+            <livewire:book-search />
+        </div>
+
         <h3 class="text-lg font-medium mb-4">{{ __('Library Books') }}</h3>
         @if($books->isEmpty())
             <p>{{ __('No books in the library yet.') }}</p>

@@ -5,7 +5,7 @@
     <input
         type="text"
         wire:model.live="search"
-        class="w-full border border-gray-300 rounded px-4 py-2"
+        class="w-full border border-gray-300 rounded px-4 py-2 text-primary dark:text-primary-dark bg-secondary dark:bg-secondary-dark"
         placeholder="Search for a book..."
     />
 

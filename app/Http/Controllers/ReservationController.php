@@ -19,8 +19,7 @@ class ReservationController extends Controller
         $stats = Reservation::getStats();
 
         // Fetch all reservations
-        $reservations = Reservation::with(['user', 'book'])->get();
-
+    $reservations = Reservation::with(['user', 'book'])->paginate(20);
         return view('reservations.index', compact('reservations', 'stats'));
     }
 
@@ -32,27 +31,7 @@ class ReservationController extends Controller
         return view('reservations.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-//    public function store(Request $request){
-//        // Validate and store the reservation
-//       $request->validate([
-//           'user_id' => 'required|exists:users,id',
-//           'book_id' => 'required|exists:books,id',
-//           'staff_id' => 'exists:users,id',
-//           'reservation_date' => 'required|date|after:now',
-//       ]);
-//        // Check if the book is available for reservation
-//
-//        if(!Book::available($request->book_id)){
-//            return redirect()->back()->with('error', 'Book is not available for reservation.');
-//        }
-//
-//        Reservation::create($request->all());
-//
-//        return redirect()->route('reservations.index')->with('success', 'Reservation created successfully.');
-//    }
+
 
     /**
      * edit reservation
@@ -67,7 +46,7 @@ class ReservationController extends Controller
     /**
      * update reservation
      */
-public function update(Request $request, Reservation $reservation){
+    public function update(Request $request, Reservation $reservation){
         try {
             // Validate the request data
 
@@ -144,4 +123,56 @@ public function update(Request $request, Reservation $reservation){
         }
     }
 
+
+    public function reserveBook($bookId)
+    {
+        // Check if the book exists
+        $book = Book::find($bookId);
+        if (!$book) {
+            return redirect()->back()->with('error', 'Book not found.');
+        }
+
+        // Check if the book is available for reservation
+        $availableCopy = $book->copies()->where('status', 'available')->first();
+        if (!$availableCopy) {
+            return redirect()->back()->with('error', 'No available copies for this book.');
+        }
+
+        // Reserve the book copy
+        $availableCopy->status = 'reserved';
+        $availableCopy->save();
+
+        // Create a new reservation
+        $reservation = Reservation::create([
+            'user_id' => Auth::id(),
+            'book_id' => $bookId,
+            'reservation_date' => now(),
+            'status' => 'pending',
+        ]);
+
+        return redirect()->route('member.my-reservations')->with('success', 'Reservation created successfully.');
+    }
+
+public function pickup(Reservation $reservation)
+{
+    if ($reservation->status !== 'reserved') {
+        return redirect()->back()->with('error', 'This reservation is not ready for pickup.');
+    }
+
+    $reservation->status = 'picked_up';
+    $reservation->save();
+
+    return redirect()->route('member.my-reservations')->with('success', 'Book picked up successfully.');
+}
+public function cancel(Reservation $reservation)
+{
+    if ($reservation->status === 'pending') {
+        return redirect()->back()->with('error', 'You cannot cancel a pending reservation.');
+    }
+
+    $reservation->status = 'cancelled';
+    $reservation->save();
+
+    return redirect()->route('member.my-reservations')->with('success', 'Reservation cancelled successfully.');
+}
 }

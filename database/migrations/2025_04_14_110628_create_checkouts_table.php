@@ -25,6 +25,8 @@ return new class extends Migration
             $table->decimal('base_fee', 8, 2);
             $table->integer('renewal_count')->default(0);
             $table->timestamps();
+            //fineAmount
+            $table->decimal('fine_amount', 8, 2)->default(0.00)->nullable();
         });
     }
 

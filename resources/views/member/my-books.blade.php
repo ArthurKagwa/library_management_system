@@ -41,7 +41,7 @@
                     <h3 class="text-lg font-medium mt-8 mb-4">{{ __('My Reservations') }}</h3>
 
                     @if($reservations->isEmpty())
-                        <p>{{ __('You have no active reservations.') }}</p>
+                            <p class="text-gray-500 dark:text-gray-400 italic text-center py-4">{{ __('You have no active reservations.') }}</p>
                     @else
                         <div class="overflow-x-auto">
                             <table class="min-w-full divide-y divide-gray-200">

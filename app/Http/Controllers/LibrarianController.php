@@ -51,6 +51,7 @@ class LibrarianController extends Controller
     return view('librarian.library-books', compact('books'));
 }
 
+
 public function storeBook(Request $request)
 {
     $validated = $request->validate([
@@ -60,7 +61,13 @@ public function storeBook(Request $request)
         'quantity' => 'required|integer|min:1',
         'description' => 'nullable|string',
         'published_date' => 'nullable|date',
+        'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Validate image
     ]);
+
+    // Handle image upload if present
+    if ($request->hasFile('image')) {
+        $validated['image'] = $request->file('image')->store('book_images', 'public'); // Store image in 'storage/app/public/book_images'
+    }
 
     // Create the book
     $book = Book::create($validated);
@@ -73,14 +80,13 @@ public function storeBook(Request $request)
             'status' => 'available',
             'condition' => 'good',
             'acquisition_date' => now(),
-            'location' => 'Main Shelf'
+            'location' => 'Main Shelf',
         ]);
     }
 
     return redirect()->route('librarian.books.index')
         ->with('success', 'Book and copies added successfully');
 }
-
 public function destroyBook(Book $book)
 {
     // Check if any copies are checked out before deletion
@@ -99,59 +105,8 @@ public function destroyBook(Book $book)
         ->with('success', 'Book and all copies deleted successfully');
 }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Librarian $librarian)
-    {
-        //
-    }
 
 
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Librarian $librarian)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Librarian $librarian)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Librarian $librarian)
-    {
-        //
-    }
-
-    /**
-     * Route to books management page
-     */
     public function books(){
         $books = Book::all();
         return view('librarian.books', [

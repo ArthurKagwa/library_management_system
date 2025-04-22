@@ -75,7 +75,7 @@ class CheckoutSeeder extends Seeder
         }
 
         // Create some checkouts without reservations (directly from available copies)
-        $checkoutCount = min(15, count($availableCopies));
+        $checkoutCount = min(4, count($availableCopies));
         for ($i = 0; $i < $checkoutCount; $i++) {
             $bookCopy = $availableCopies[$i];
 
@@ -111,7 +111,7 @@ class CheckoutSeeder extends Seeder
         }
 
         // Create some returned checkouts
-        $returnCount = min(10, count($checkedOutCopies));
+        $returnCount = min(5, count($checkedOutCopies));
         for ($i = 0; $i < $returnCount; $i++) {
             $bookCopy = $checkedOutCopies[$i];
 

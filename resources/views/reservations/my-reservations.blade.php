@@ -35,37 +35,46 @@
 
                     </tr>
                     </thead>
-                    <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
-                    @foreach($reservations as $reservation)
-                        <tr class="hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
-                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-gray-100">
-                                {{ $reservation->book->title }}
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
-                                {{ $reservation->user->name }}
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
-                                {{ $reservation->reservation_date->format('Y-m-d H:i:s') }}
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <span @class([
-                                    'px-2 inline-flex text-xs leading-5 font-semibold rounded-full',
-                                    'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200' => $reservation->status === 'approved',
-                                    'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200' => $reservation->status === 'pending',
-                                    'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200' => $reservation->status === 'rejected',
-                                    'bg-gray-100 text-gray-800 dark:bg-gray-600 dark:text-gray-300' => !in_array($reservation->status, ['approved', 'pending', 'rejected']) ])>
-                                    {{ ucfirst($reservation->status) }}
-                                </span>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                <a href="{{ route('member.reservations.edit', $reservation->id) }}" class="text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300">
-                                    {{ __('Inspect') }}
-                                </a>
-                            </td>
-                        </tr>
-                    @endforeach
-                    </tbody>
-                </table>
+                  <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
+    @foreach($reservations as $reservation)
+        <tr class="hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-gray-100">
+                {{ $reservation->book->title }}
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
+                {{ $reservation->user->name }}
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
+                {{ $reservation->reservation_date->format('Y-m-d H:i:s') }}
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap">
+                <span @class([
+                    'px-2 inline-flex text-xs leading-5 font-semibold rounded-full',
+                    'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200' => $reservation->status === 'reserved',
+                    'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200' => $reservation->status === 'pending',
+                    'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200' => $reservation->status === 'expired',
+                    'bg-gray-100 text-gray-800 dark:bg-gray-600 dark:text-gray-300' => !in_array($reservation->status, ['reserved', 'pending', 'expired']) ])>
+                    {{ ucfirst($reservation->status) }}
+                </span>
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                @if($reservation->status === 'reserved')
+                    <a href="{{ route('member.pickup', $reservation->id) }}" class="text-green-600 hover:text-green-900 dark:text-green-400 dark:hover:text-green-300">
+                        {{ __('Pick Up') }}
+                    </a>
+                @elseif($reservation->status === 'pending')
+                    <span class="text-gray-500 dark:text-gray-400">
+                        {{ __('Cannot Cancel') }}
+                    </span>
+                @else
+                    <a href="{{ route('member.cancel', $reservation->id) }}" class="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300">
+                        {{ __('Cancel') }}
+                    </a>
+                @endif
+            </td>
+        </tr>
+    @endforeach
+</tbody>
             </div>
         </div>
     </div>

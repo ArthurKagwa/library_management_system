@@ -15,6 +15,7 @@ class Book extends Model
         'isbn',
         'description',
         'published_date',
+        'image',
     ];
 
     public function copies()
@@ -33,7 +34,7 @@ class Book extends Model
     }
 
 
-    public static function available(mixed $book_id)
+    public static function available( $book_id)
     {
         // Check if the book is available
         $book = self::find($book_id);

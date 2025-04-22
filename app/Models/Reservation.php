@@ -83,16 +83,6 @@ public static function memberReservationStats(int|string|null $id)
       ];
   }
 
-  // Also update the getStats() method similarly
-    public function user()
-    {
-        return $this->belongsTo(User::class);
-    }
-    public function book()
-    {
-        return $this->belongsTo(Book::class);
-    }
-
 //get stats for reservations depending on status and also total reservations
     public static function getStats()
     {
@@ -136,5 +126,23 @@ public static function memberReservationStats(int|string|null $id)
         ];
     }
 
+    // Define relationships
 
+    // Also update the getStats() method similarly
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+    public function book()
+    {
+        return $this->belongsTo(Book::class);
+    }
+    public function bookCopy()
+    {
+        return $this->belongsTo(BookCopy::class);
+    }
+    public function staff()
+    {
+        return $this->belongsTo(User::class, 'staff_id');
+    }
 }
