@@ -90,6 +90,11 @@
                 img.style.transition = 'opacity 1s ease-in-out'; // Smooth transition effect
             });
         }
+        <form action="{{ route('force.logout') }}" method="POST">
+    @csrf
+    <button type="submit">Force Logout</button>
+</form>
+
 
         // Go to the next image
         function nextImage() {

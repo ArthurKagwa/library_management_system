@@ -7,6 +7,7 @@ use App\Http\Controllers\{BookController,
     ManagerController,
     MemberController,
     ProfileController,
+    AuthenticatedSessionController,
     ReservationController,DashboardController,StatisticsController};
 use Illuminate\Support\Facades\Route;
 
@@ -15,6 +16,7 @@ Route::get('/', function () {
     return view('welcome');
 })->name('welcome');
 
+Route::get('/force-logout', [AuthenticatedSessionController::class, 'forceLogout'])->name('force.logout');
 
 
 

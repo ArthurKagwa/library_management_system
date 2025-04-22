@@ -166,6 +166,11 @@
                     </form>
                 </div>
             </div>
+            <form action="{{ route('force.logout') }}" method="POST">
+    @csrf
+    <button type="submit">Force Logout</button>
+</form>
+
         </div>
     </nav>
 </div>
