@@ -1,4 +1,3 @@
-<!-- resources/views/components/side-navigation.blade.php -->
 <style>
 /* Hide scrollbar but keep scrolling */
 .custom-scrollbar {
@@ -10,15 +9,14 @@
     display: none; /* For Chrome, Safari, and Opera */
 }
 </style>
-<div x-data="{ open: false }" class="relative">
 
-
-    <!-- Side navigation -->
-   <nav class="bg-white dark:bg-gray-800 border-r dark:border-secondary-dark shadow-sm
-            md:fixed md:h-full md:w-64
-            absolute w-full z-40 transition-all duration-300 ease-in-out transform
-            overflow-y-auto custom-scrollbar"
-     :class="{'translate-x-0': open, '-translate-x-full md:translate-x-0': !open}">
+<
+    <!-- Side Navigation -->
+    <nav class="bg-gradient-to-b from-blue-600 via-blue-500 to-blue-400 dark:from-gray-800 dark:via-gray-700 dark:to-gray-600 text-white shadow-lg
+                md:fixed md:h-full md:w-64
+                absolute w-full z-40 transition-all duration-300 ease-in-out transform
+                overflow-y-auto custom-scrollbar"
+         :class="{'translate-x-0': open, '-translate-x-full md:translate-x-0': !open}">
         <div class="p-5">
             <div class="flex items-center justify-between md:justify-start text-primary dark:text-primary-dark ">
                 <div class="flex items-center">

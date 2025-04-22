@@ -38,7 +38,7 @@
                 <div class="w-full md:w-1/2 bg-white dark:bg-gray-800 shadow-md rounded-lg p-6 flex flex-col justify-center" style="height: 400px;">
                     <h3 class="text-2xl font-semibold text-gray-900 dark:text-gray-100 mb-4">Quick Actions</h3>
                     <div class="space-y-4">
-                        <a href="{{ route('member.books.reserve') }}" class="block bg-indigo-600 text-white text-center py-2 rounded-md hover:bg-indigo-700">
+                        <a href="{{ route('member.explore') }}" class="block bg-indigo-600 text-white text-center py-2 rounded-md hover:bg-indigo-700">
                             View All Books
                         </a>
                         <a href="{{ route('profile.edit') }}" class="block bg-green-600 text-white text-center py-2 rounded-md hover:bg-green-700">
