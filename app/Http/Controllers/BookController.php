@@ -31,6 +31,19 @@ class BookController extends Controller
             
         return response()->json($books);
     }
-
+    
+    public function addImage(Request $request, Book $book)
+    {
+        $request->validate([
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+    
+        if ($request->hasFile('image')) {
+            $path = $request->file('image')->store('book_images', 'public');
+            $book->update(['image' => $path]);
+        }
+    
+        return redirect()->back()->with('success', 'Image added successfully!');
+    }
 
 }

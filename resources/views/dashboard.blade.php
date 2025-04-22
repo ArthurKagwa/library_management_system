@@ -1,6 +1,6 @@
 <x-app-layout>
     <x-slot name="header">
-        <div class="bg-pink-500 dark:bg-pink-600 px-4 py-3 rounded-md">
+        <div class="bg-gradient-to-r from-blue-500 via-pink-400 to-purple-500 dark:from-gray-800 dark:via-gray-700 dark:to-gray-600 px-4 py-3 rounded-md">
             <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
                 {{ __('Member Dashboard') }}
             </h2>
@@ -8,7 +8,7 @@
     </x-slot>
 
     <div class="min-h-screen bg-gray-100 dark:bg-gray-900 flex flex-col justify-start items-center pt-8 px-4">
-        <div class="w-full max-w-7xl space-y-4">
+        <div class="w-full max-w-7xl space-y-8">
             {{-- Welcome Card --}}
             <div class="bg-white dark:bg-gray-800 shadow-md sm:rounded-lg p-4">
                 <p class="text-gray-700 dark:text-gray-300">
@@ -38,13 +38,13 @@
                 <div class="w-full md:w-1/2 bg-white dark:bg-gray-800 shadow-md rounded-lg p-6 flex flex-col justify-center" style="height: 400px;">
                     <h3 class="text-2xl font-semibold text-gray-900 dark:text-gray-100 mb-4">Quick Actions</h3>
                     <div class="space-y-4">
-                        <a href="{{ route('member.books.reserve') }}" class="block bg-indigo-600 text-white text-center py-2 rounded-md hover:bg-indigo-700">
+                        <a href="{{ route('member.explore') }}" class="block bg-gradient-to-r from-blue-500 via-pink-400 to-gray-500 text-white text-center py-2 rounded-md hover:from-blue-600 hover:via-pink-500 hover:to-gray-600 transition duration-300 ease-in-out">
                             View All Books
                         </a>
-                        <a href="{{ route('profile.edit') }}" class="block bg-green-600 text-white text-center py-2 rounded-md hover:bg-green-700">
+                        <a href="{{ route('profile.edit') }}" class="block bg-gradient-to-r from-pink-500 via-blue-400 to-gray-500 text-white text-center py-2 rounded-md hover:from-pink-600 hover:via-blue-500 hover:to-gray-600 transition duration-300 ease-in-out">
                             Edit Profile
                         </a>
-                        <a href="{{ route('member.books.reserve') }}" class="block bg-yellow-600 text-white text-center py-2 rounded-md hover:bg-yellow-700">
+                        <a href="{{ route('member.books.reserve') }}" class="block bg-gradient-to-r from-gray-500 via-pink-400 to-blue-500 text-white text-center py-2 rounded-md hover:from-gray-600 hover:via-pink-500 hover:to-blue-600 transition duration-300 ease-in-out">
                             Manage Reservations
                         </a>
                     </div>
@@ -55,11 +55,11 @@
             <div class="bg-white dark:bg-gray-800 shadow-md sm:rounded-lg p-6">
                 <h3 class="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-4">Statistics Overview</h3>
                 <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
-                    <div class="bg-indigo-600 text-white p-4 rounded-lg shadow-md">
+                    <div class="bg-blue-600 text-white p-4 rounded-lg shadow-md">
                         <h4 class="text-lg font-semibold">Books</h4>
                         <p class="text-2xl font-bold">{{ $totalBooks ?? 0 }}</p>
                     </div>
-                    <div class="bg-green-600 text-white p-4 rounded-lg shadow-md">
+                    <div class="bg-pink-600 text-white p-4 rounded-lg shadow-md">
                         <h4 class="text-lg font-semibold">Members</h4>
                         <p class="text-2xl font-bold">{{ $totalMembers ?? 0 }}</p>
                     </div>
@@ -67,7 +67,7 @@
                         <h4 class="text-lg font-semibold">Reservations</h4>
                         <p class="text-2xl font-bold">{{ $totalReservations ?? 0 }}</p>
                     </div>
-                    <div class="bg-red-600 text-white p-4 rounded-lg shadow-md">
+                    <div class="bg-gray-600 text-white p-4 rounded-lg shadow-md">
                         <h4 class="text-lg font-semibold">Overdue Books</h4>
                         <p class="text-2xl font-bold">{{ $overdueBooks ?? 0 }}</p>
                     </div>
@@ -77,11 +77,11 @@
     </div>
 
     {{-- JS-Based Carousel --}}
-   <script>
-    document.addEventListener('DOMContentLoaded', () => {
-        const images = document.querySelectorAll('.carousel-image');
-        let current = 0;
-        const intervalTime = 5000; // 5 seconds per image
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const images = document.querySelectorAll('.carousel-image');
+            let current = 0;
+            const intervalTime = 5000; // 5 seconds per image
 
         // Show the current image in the carousel
         function showImage(index) {
@@ -90,21 +90,16 @@
                 img.style.transition = 'opacity 1s ease-in-out'; // Smooth transition effect
             });
         }
-        <form action="{{ route('force.logout') }}" method="POST">
-    @csrf
-    <button type="submit">Force Logout</button>
-</form>
 
+            // Go to the next image
+            function nextImage() {
+                current = (current + 1) % images.length;
+                showImage(current);
+            }
 
-        // Go to the next image
-        function nextImage() {
-            current = (current + 1) % images.length;
-            showImage(current);
-        }
-
-        // Initialize the carousel
-        showImage(current); // Show the first image
-        setInterval(nextImage, intervalTime); // Automatically change images every 5 seconds
-    });
-</script>
+            // Initialize the carousel
+            showImage(current); // Show the first image
+            setInterval(nextImage, intervalTime); // Automatically change images every 5 seconds
+        });
+    </script>
 </x-app-layout>

@@ -7,7 +7,6 @@ use App\Http\Controllers\{BookController,
     ManagerController,
     MemberController,
     ProfileController,
-    AuthenticatedSessionController,
     ReservationController,DashboardController,StatisticsController};
 use Illuminate\Support\Facades\Route;
 
@@ -41,9 +40,10 @@ Route::middleware(['auth'])->group(function () {
 
     // Member routes
     Route::prefix('member')->middleware('role:member')->group(function () {
-        
+          
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
         Route::get('dashboard', [MemberController::class, 'index'])->name('member.dashboard');
+       
         Route::get('reserve-book', [MemberController::class, 'reserveBookPage'])->name('member.books.reserve');
         Route::get('reserve-book/{book}', [ReservationController::class, 'reserveBook'])->name('member.reserve');
 
@@ -66,7 +66,7 @@ Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard
         Route::get('checkout/{checkoutId}', [CheckOutController::class, 'view'])->name('member.view-checkout');
 
         //to explore page
-        Route::get('explore', [MemberController::class, 'explore'])->name('member.explore');
+        Route::get('/explore', [ExploreController::class, 'index'])->name('member.explore');
         //to search a book
         Route::get('/books/search', [BookController::class, 'search']);
         //to view book page
