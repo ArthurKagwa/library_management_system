@@ -34,6 +34,12 @@ class BookSearch extends Component
             $this->results = [];
         }
     }
+
+    public function clearSearch()
+    {
+        $this->search = '';
+        $this->results = [];
+    }
     public function selectBook($bookId)
     {
         $this->selectedBook = Book::find($bookId);

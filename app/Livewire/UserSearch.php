@@ -20,6 +20,14 @@ class UserSearch extends Component
         }
     }
 
+    //clear search
+    public function clearSearch()
+    {
+        $this->search = '';
+        $this->results = [];
+        $this->selectedUser = null;
+    }
+
     protected function updateSearch()
     {
         // Log for debugging
