@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\BookCopy;
+use App\Models\Checkout;
 use App\Models\LendingFee;
 use App\Models\Manager; // Unused, you can remove this.
 use App\Models\User;
@@ -11,8 +12,8 @@ use App\Notifications\UserPromotedNotification;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
 use App\Models\Book; // Add this import
-use App\Models\BorrowLog; // Add this import
 use Illuminate\Support\Facades\DB; // Add this import
+
 
 class ManagerController extends Controller
 {
@@ -24,6 +25,23 @@ class ManagerController extends Controller
             'total_books' => Book::count(),
             'loanedBooks' => BookCopy::where('status', 'checked_out')->count(),
         ];
+
+        // GET reservations for the current month
+        $currentMonth = now()->format('m');
+        $reservations = DB::table('reservations')
+            ->whereMonth('created_at', $currentMonth)
+            ->count();
+        $stats['reservations'] = $reservations;
+        // get checkouts for the currrent month based on checkout date
+        $checkouts = Checkout::whereMonth('created_at', $currentMonth)
+            ->count();
+        $stats['checkouts'] = $checkouts;
+        // get checkouts with with return_date set
+        $checkins = Checkout::whereNotNull('return_date')
+            ->whereMonth('created_at', $currentMonth)
+            ->count();
+        $stats['checkins'] = $checkins;
+
 
         return view('manager.dashboard', compact('stats'));
     }

@@ -84,6 +84,8 @@
                 </div>
             </div>
 
+
+
             <div class="bg-white/10 backdrop-blur-lg dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700 rounded-lg p-6 relative overflow-hidden group">
                 <div class="absolute inset-0 bg-gradient-to-r from-amber-400/20 to-orange-400/20 transform group-hover:scale-105 transition-transform duration-300 rounded-lg"></div>
                 <div class="relative flex items-center space-x-4">
@@ -95,6 +97,36 @@
                     <div>
                         <h3 class="text-lg font-bold text-gray-800 dark:text-gray-200">Loaned Books</h3>
                         <p class="text-2xl font-bold text-amber-600 dark:text-amber-400">{{ $stats['loanedBooks'] }}</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white/10 backdrop-blur-lg dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700 rounded-lg p-6 relative overflow-hidden group">
+                <div class="absolute inset-0 bg-gradient-to-r from-amber-400/20 to-orange-400/20 transform group-hover:scale-105 transition-transform duration-300 rounded-lg"></div>
+                <div class="relative flex items-center space-x-4">
+                    <div class="bg-amber-100 dark:bg-amber-900/30 text-amber-600 dark:text-amber-300 p-3 rounded-lg">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
+                        </svg>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-bold text-gray-800 dark:text-gray-200">{{ __('Checkouts in ') . now()->format('F') }}</h3>
+                        <p class="text-2xl font-bold text-amber-600 dark:text-amber-400">{{ $stats['checkouts'] }}</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white/10 backdrop-blur-lg dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700 rounded-lg p-6 relative overflow-hidden group">
+                <div class="absolute inset-0 bg-gradient-to-r from-indigo-400/20 to-purple-400/20 transform group-hover:scale-105 transition-transform duration-300 rounded-lg"></div>
+                <div class="relative flex items-center space-x-4">
+                    <div class="bg-amber-100 dark:bg-amber-900/30 text-amber-600 dark:text-indigo-300 p-3 rounded-lg">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
+                        </svg>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-bold text-gray-800 dark:text-gray-200">{{ __('Checkins in ') . now()->format('F') }}</h3>
+                        <p class="text-2xl font-bold text-amber-600 dark:text-amber-400">{{ $stats['checkins'] }}</p>
                     </div>
                 </div>
             </div>

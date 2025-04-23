@@ -111,27 +111,10 @@
                                         $currentDate = now();
                                     @endphp
 
-                                    @if($currentDate->lt($fee->effective_from))
-                                        <span class="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800 dark:bg-yellow-900/70 dark:text-yellow-200 shadow-sm">
-                                        <span class="flex items-center">
-                                            <span class="h-1.5 w-1.5 rounded-full bg-yellow-500 mr-1.5"></span>
-                                            {{ __('Upcoming') }}
-                                        </span>
-                                    </span>
-                                    @elseif($fee->effective_to && $currentDate->between($fee->effective_from, $fee->effective_to))
-                                        <span class="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800 dark:bg-green-900/70 dark:text-green-200 shadow-sm">
-                                        <span class="flex items-center">
-                                            <span class="h-1.5 w-1.5 rounded-full bg-green-500 mr-1.5"></span>
-                                            {{ __('Active') }}
-                                        </span>
-                                    </span>
-                                    @elseif(!$fee->effective_to || $currentDate->gt($fee->effective_to))
-                                        <span class="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800 dark:bg-red-900/70 dark:text-red-200 shadow-sm">
-                                        <span class="flex items-center">
-                                            <span class="h-1.5 w-1.5 rounded-full bg-red-500 mr-1.5"></span>
-                                            {{ __('Expired') }}
-                                        </span>
-                                    </span>
+                                    @if($fee->effective_to && $fee->effective_to->isPast())
+                                        <span class="text-red-500 dark:text-red-400">Expired</span>
+                                    @else
+                                        <span class="text-green-500 dark:text-green-400">Active</span>
                                     @endif
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
