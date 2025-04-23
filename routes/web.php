@@ -7,6 +7,7 @@ use App\Http\Controllers\{BookController,
     ManagerController,
     MemberController,
     ProfileController,
+    ExploreController,
     ReservationController,DashboardController,StatisticsController};
 use Illuminate\Support\Facades\Route;
 
@@ -108,8 +109,7 @@ Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard
 
     // Manager routes
     Route::prefix('manager')->middleware('role:manager')->group(function () {
-        
-Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+        Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
         Route::get('dashboard', [ManagerController::class, 'index'])->name('manager.dashboard');
         Route::get('staff', [ManagerController::class, 'staff'])->name('manager.staff');
         // Add other manager-specific routes here
