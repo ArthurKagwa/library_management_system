@@ -62,7 +62,7 @@
                     <a href="{{ route('member.pickup', $reservation->id) }}" class="text-green-600 hover:text-green-900 dark:text-green-400 dark:hover:text-green-300">
                         {{ __('Pick Up') }}
                     </a>
-                @elseif($reservation->status === 'pending')
+                @elseif($reservation->status === 'picked_up' ||$reservation->status === 'cancelled' )
                     <span class="text-gray-500 dark:text-gray-400">
                         {{ __('Cannot Cancel') }}
                     </span>
